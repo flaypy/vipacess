@@ -63,19 +63,19 @@ fi
 # Build Docker images
 echo ""
 echo "Building Docker images..."
-docker compose -f docker-compose.prod.yml build --no-cache
+docker compose -f docker-compose.yml build --no-cache
 echo -e "${GREEN}✓${NC} Images built"
 
 # Stop services
 echo ""
 echo "Stopping services..."
-docker compose -f docker-compose.prod.yml down
+docker compose -f docker-compose.yml down
 echo -e "${GREEN}✓${NC} Services stopped"
 
 # Start services
 echo ""
 echo "Starting services..."
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.yml up -d
 echo -e "${GREEN}✓${NC} Services started"
 
 # Wait for services to be healthy
@@ -86,13 +86,13 @@ sleep 10
 # Run database migrations
 echo ""
 echo "Running database migrations..."
-docker compose -f docker-compose.prod.yml exec -T backend npx prisma migrate deploy
+docker compose -f docker-compose.yml exec -T backend npx prisma migrate deploy
 echo -e "${GREEN}✓${NC} Migrations completed"
 
 # Check service status
 echo ""
 echo "Checking service status..."
-docker compose -f docker-compose.prod.yml ps
+docker compose -f docker-compose.yml ps
 
 # Health checks
 echo ""
@@ -115,7 +115,7 @@ fi
 # Display logs
 echo ""
 echo "Recent logs:"
-docker compose -f docker-compose.prod.yml logs --tail=50
+docker compose -f docker-compose.yml logs --tail=50
 
 echo ""
 echo "=========================================="
