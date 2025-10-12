@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database for Development
+  postgres:
+    image: postgres:15-alpine
+    container_name: telegram_secrets_db_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-telegram_secrets}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword123}
+      POSTGRES_DB: ${POSTGRES_DB:-telegram_secrets_db}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - telegram_secrets_dev_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-telegram_secrets}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  telegram_secrets_dev_network:
+    driver: bridge
+
+volumes:
+  postgres_data_dev:
+    driver: local

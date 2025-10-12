@@ -17,40 +17,51 @@ import settingsRoutes from './routes/settings';
 // Load environment variables
 dotenv.config();
 
-// Validate required environment variables
-const requiredEnvVars = [
-  'DATABASE_URL',
-  'JWT_SECRET',
-  'PUSHINPAY_TOKEN',
-];
-
-for (const envVar of requiredEnvVars) {
-  if (!process.env[envVar]) {
-    console.error(`❌ Missing required environment variable: ${envVar}`);
-    process.exit(1);
-  }
-}
-
 const app: Application = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Security Middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", 'data:', 'https:'],
+// Validate required environment variables (only in production)
+if (isProduction) {
+  const requiredEnvVars = [
+    'DATABASE_URL',
+    'JWT_SECRET',
+    'PUSHINPAY_TOKEN',
+  ];
+
+  for (const envVar of requiredEnvVars) {
+    if (!process.env[envVar]) {
+      console.error(`❌ Missing required environment variable: ${envVar}`);
+      process.exit(1);
+    }
+  }
+} else {
+  console.log('⚠️  Running in development mode - skipping strict environment validation');
+}
+
+// Security Middleware (relaxed in development)
+if (isProduction) {
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+      },
     },
-  },
-  hsts: {
-    maxAge: 31536000,
-    includeSubDomains: true,
-    preload: true,
-  },
-}));
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true,
+    },
+  }));
+} else {
+  app.use(helmet({
+    contentSecurityPolicy: false, // Disable CSP in development
+    hsts: false, // Disable HSTS in development
+  }));
+}
 
 // Rate limiting
 const limiter = rateLimit({

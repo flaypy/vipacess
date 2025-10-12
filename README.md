@@ -1,6 +1,12 @@
-# Telegram Secrets
+# Telegram Secrets 🔐
 
 A sophisticated, exclusive e-commerce boutique for high-quality digital adult content. Built with modern web technologies featuring geolocation-based content filtering and multi-language support.
+
+## 📖 Documentation
+
+- 🛠️ **[Development Guide](./README.development.md)** - Setup local para desenvolvimento
+- 🚀 **[Production Guide](./README.production.md)** - Deploy em produção
+- 📚 **[Deployment Guide](./DEPLOYMENT.md)** - Guia técnico completo de deploy
 
 ## Project Structure
 
