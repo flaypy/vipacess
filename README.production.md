@@ -62,7 +62,7 @@ git clone https://github.com/yourusername/telegram_secrets.git
 cd telegram_secrets
 
 # Create environment file
-cp .env.production.example .env.production
+cp .env.prod .env.production
 
 # Generate secrets
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"  # JWT_SECRET
