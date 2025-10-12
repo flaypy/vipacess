@@ -1,16 +1,118 @@
 version: '3.8'
+
 services:
-  db:
-    image: postgres:15
-    restart: always
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: telegram_secrets_db
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: user_db
-      POSTGRES_PASSWORD: password_db
-      POSTGRES_DB: telegram_secrets_db
-    ports:
-      - "5433:5432"
+      POSTGRES_USER: ${POSTGRES_USER:-telegram_secrets}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-telegram_secrets_db}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    ports:
+      - "127.0.0.1:5432:5432"
+    networks:
+      - telegram_secrets_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-telegram_secrets}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=200"
+      - "-c"
+      - "shared_buffers=256MB"
+      - "-c"
+      - "effective_cache_size=1GB"
+      - "-c"
+      - "maintenance_work_mem=64MB"
+      - "-c"
+      - "checkpoint_completion_target=0.9"
+      - "-c"
+      - "wal_buffers=16MB"
+      - "-c"
+      - "default_statistics_target=100"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "effective_io_concurrency=200"
+      - "-c"
+      - "work_mem=1310kB"
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: telegram_secrets_backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://${POSTGRES_USER:-telegram_secrets}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-telegram_secrets_db}
+      JWT_SECRET: ${JWT_SECRET}
+      PUSHINPAY_TOKEN: ${PUSHINPAY_TOKEN}
+      FRONTEND_URL: ${FRONTEND_URL}
+      BACKEND_URL: ${BACKEND_URL}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - telegram_secrets_network
+    ports:
+      - "127.0.0.1:3001:3001"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Frontend Next.js
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: telegram_secrets_frontend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${BACKEND_URL}
+      NEXT_PUBLIC_SITE_URL: ${FRONTEND_URL}
+    depends_on:
+      - backend
+    networks:
+      - telegram_secrets_network
+    ports:
+      - "127.0.0.1:3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  telegram_secrets_network:
+    driver: bridge
 
 volumes:
   postgres_data:
+    driver: local

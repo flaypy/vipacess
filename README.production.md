@@ -139,14 +139,14 @@ curl https://yourdomain.com
 
 #### Database
 ```bash
-docker compose -f docker-compose.prod.yml exec postgres pg_isready
+docker compose -f docker-compose.yml exec postgres pg_isready
 ```
 
 ### Logs
 
 ```bash
 # Application logs
-docker compose -f docker-compose.prod.yml logs -f
+docker compose -f docker-compose.yml logs -f
 
 # Nginx logs
 sudo tail -f /var/log/nginx/telegram-secrets-access.log
@@ -227,8 +227,8 @@ sudo ufw allow 2222/tcp  # SSH
 sudo apt update && sudo apt upgrade -y
 
 # Docker images
-docker compose -f docker-compose.prod.yml pull
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.yml pull
+docker compose -f docker-compose.yml up -d
 
 # Application
 git pull origin main
@@ -240,25 +240,25 @@ git pull origin main
 ### Service Won't Start
 ```bash
 # Check logs
-docker compose -f docker-compose.prod.yml logs backend
+docker compose -f docker-compose.yml logs backend
 
 # Check environment
-docker compose -f docker-compose.prod.yml config
+docker compose -f docker-compose.yml config
 
 # Rebuild
-docker compose -f docker-compose.prod.yml build --no-cache
+docker compose -f docker-compose.yml build --no-cache
 ```
 
 ### Database Connection Issues
 ```bash
 # Check database
-docker compose -f docker-compose.prod.yml exec postgres psql -U telegram_secrets
+docker compose -f docker-compose.yml exec postgres psql -U telegram_secrets
 
 # Run migrations
-docker compose -f docker-compose.prod.yml exec backend npx prisma migrate deploy
+docker compose -f docker-compose.yml exec backend npx prisma migrate deploy
 
 # Reset connection pool
-docker compose -f docker-compose.prod.yml restart backend
+docker compose -f docker-compose.yml restart backend
 ```
 
 ### High Memory Usage
@@ -267,7 +267,7 @@ docker compose -f docker-compose.prod.yml restart backend
 docker stats
 
 # Restart services
-docker compose -f docker-compose.prod.yml restart
+docker compose -f docker-compose.yml restart
 
 # Clear Docker cache
 docker system prune -a
