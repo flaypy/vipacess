@@ -65,6 +65,7 @@ COPY --from=prod-deps --chown=nodejs:nodejs /app/package*.json ./
 # Copy built application
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nodejs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nodejs:nodejs /app/scripts ./scripts
 
 # Switch to non-root user
 USER nodejs
