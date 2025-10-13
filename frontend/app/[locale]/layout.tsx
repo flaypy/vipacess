@@ -6,6 +6,7 @@ import { Metadata, Viewport } from 'next';
 import '../globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SessionManager from '@/components/SessionManager'; // 1. IMPORTE O NOVO COMPONENTE
 
 // Viewport configuration (separate from metadata in Next.js 14+)
 export const viewport: Viewport = {
@@ -102,37 +103,39 @@ export async function generateMetadata({
 }
 
 export default async function LocaleLayout({
-  children,
-  params,
-}: {
+                                             children,
+                                             params,
+                                           }: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
 
-  // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as any)) {
     notFound();
   }
 
-  // Providing all messages to the client
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+      <html lang={locale}>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
-        </NextIntlClientProvider>
+      {/* 2. ADICIONE O SESSIONMANAGER AQUI */}
+      <SessionManager />
+      <NextIntlClientProvider messages={messages}>
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </div>
+      </NextIntlClientProvider>
       </body>
-    </html>
+      </html>
   );
 }
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
+
+

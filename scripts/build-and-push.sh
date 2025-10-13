@@ -8,8 +8,8 @@ echo "=========================================="
 echo "Telegram Secrets - Build & Push to Docker Hub"
 echo "=========================================="
 
-# Check if .env.production.local.local exists
-if [ ! -f .env.production.local.local ]; then
+# Check if .env.production.local exists
+if [ ! -f .env.production.local ]; then
     echo "ERROR: .env.production.local not found!"
     echo "Please create .env.production.local with your configuration"
     exit 1
@@ -17,7 +17,7 @@ fi
 
 # Load environment variables
 echo "Loading environment variables..."
-export $(cat .env.production.local.local | grep -v '^#' | xargs)
+export $(cat .env.production.local | grep -v '^#' | xargs)
 
 # Validate required variables
 if [ -z "$DOCKER_USERNAME" ]; then

@@ -1,8 +1,11 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+
+
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -10,9 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 1. Adicione a role 'GUEST'
 enum Role {
   ADMIN
   CUSTOMER
+  GUEST // Adicionado
 }
 
 enum OrderStatus {
@@ -22,17 +27,21 @@ enum OrderStatus {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String   // hashed password
-  role      Role     @default(CUSTOMER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String?
+  // REMOVA O DEFAULT TEMPORARIAMENTE
+  role      Role
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   orders    Order[]
 
   @@map("users")
 }
+
+// O enum ainda deve ter GUEST
+
 
 model Product {
   id           String   @id @default(uuid())

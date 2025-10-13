@@ -1,11 +1,19 @@
-# Multi-stage build for production using a Debian-based image for better compatibility
+# Multi-stage build for production using Node 20 with OpenSSL 3.x support
 
 # ---- 1. Dependencies Stage ----
-FROM node:18-bullseye-slim AS deps
+FROM node:20-bookworm-slim AS deps
 WORKDIR /app
 
-# Install build tools just in case
-RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
+# Install required dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dumb-init \
+    curl \
+    openssl \
+    ca-certificates \
+    python3 \
+    make \
+    g++ \
+ && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
 COPY package*.json ./
@@ -15,8 +23,14 @@ COPY prisma ./prisma/
 RUN npm install && npm cache clean --force
 
 # ---- 2. Builder Stage ----
-FROM node:18-bullseye-slim AS builder
+FROM node:20-bookworm-slim AS builder
 WORKDIR /app
+
+# Install OpenSSL
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
 # Copy dependencies
 COPY --from=deps /app/node_modules ./node_modules
@@ -33,11 +47,14 @@ COPY . .
 RUN npm run build
 
 # ---- 3. Production Dependencies Stage ----
-FROM node:18-bullseye-slim AS prod-deps
+FROM node:20-bookworm-slim AS prod-deps
 WORKDIR /app
 
-# Install openssl which is required by Prisma's engine
-RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
+# Install OpenSSL which is required by Prisma's engine
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
 COPY prisma ./prisma/
@@ -48,11 +65,16 @@ RUN npm install --production && \
     npm cache clean --force
 
 # ---- 4. Production/Runner Stage ----
-FROM node:18-bullseye-slim AS runner
+FROM node:20-bookworm-slim AS runner
 WORKDIR /app
 
 # Install required runtime packages
-RUN apt-get update && apt-get install -y --no-install-recommends dumb-init curl openssl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dumb-init \
+    curl \
+    openssl \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs && \

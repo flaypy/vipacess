@@ -101,28 +101,31 @@ export const productAPI = {
 
 export const authAPI = {
   register: async (email: string, password: string) => {
-    const response = await api.post('/api/auth/register', { email, password });
-    return response.data;
+    // ...
   },
 
   login: async (email: string, password: string) => {
-    const response = await api.post('/api/auth/login', { email, password });
-    if (response.data.token) {
-      localStorage.setItem('auth_token', response.data.token);
-    }
-    return response.data;
+    // ...
   },
 
   logout: () => {
-    localStorage.removeItem('auth_token');
+    // ...
   },
 
+  // NOVA FUNÇÃO ADICIONADA AQUI
   createGuestSession: async () => {
-    const response = await api.post('/api/auth/guest');
-    if (response.data.token) {
-      localStorage.setItem('auth_token', response.data.token);
+    try {
+      const response = await api.post('/api/auth/guest');
+      if (response.data.token) {
+        // Armazena o token do guest no localStorage
+        localStorage.setItem('auth_token', response.data.token);
+      }
+      return response.data;
+    } catch (error) {
+      console.error("Failed to create guest session:", error);
+      // Retorne null ou lance o erro para que o chamador possa lidar com isso
+      return null;
     }
-    return response.data;
   },
 };
 
