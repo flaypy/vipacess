@@ -6,6 +6,7 @@ import { PrismaClient } from '@prisma/client';
 const router = Router();
 const prisma = new PrismaClient();
 
+
 /**
  * POST /api/auth/register
  * Register a new user

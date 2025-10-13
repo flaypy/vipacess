@@ -24,6 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     setLoading(false);
   }, [router]);
 
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -31,6 +32,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
     );
   }
+
+
 
   if (!isAuthenticated) {
     return null;

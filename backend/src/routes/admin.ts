@@ -187,9 +187,9 @@ router.post('/products/regions', async (req: Request, res: Response) => {
     }
 
     // Validate country code format (should be 2 letters)
-    if (!/^[A-Z]{2}$/i.test(countryCode)) {
+    if (countryCode.toUpperCase() !== 'NON_BR' && !/^[A-Z]{2}$/i.test(countryCode)) {
       return res.status(400).json({
-        error: 'countryCode must be a 2-letter ISO code (e.g., BR, US, ES)',
+        error: 'countryCode must be a 2-letter ISO code (e.g., BR, US, ES) or NON_BR',
       });
     }
 

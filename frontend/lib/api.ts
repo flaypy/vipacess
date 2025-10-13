@@ -116,6 +116,14 @@ export const authAPI = {
   logout: () => {
     localStorage.removeItem('auth_token');
   },
+
+  createGuestSession: async () => {
+    const response = await api.post('/api/auth/guest');
+    if (response.data.token) {
+      localStorage.setItem('auth_token', response.data.token);
+    }
+    return response.data;
+  },
 };
 
 export const adminAPI = {

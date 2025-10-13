@@ -27,7 +27,7 @@ export default async function HomePage({
         </div>
 
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-          <h1 className="text-6xl md:text-8xl font-serif font-bold mb-6 bg-gradient-to-r from-accent-gold via-accent-rose to-accent-purple bg-clip-text text-transparent animate-pulse">
+          <h1 className="text-6xl pb-3 md:text-8xl font-serif font-bold mb-6 bg-gradient-to-r from-accent-gold via-accent-rose to-accent-purple bg-clip-text text-transparent animate-pulse leading-relaxed">
             {t('title')}
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light">

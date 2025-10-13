@@ -21,7 +21,7 @@ export default function Header() {
               className="object-contain"
               priority
             />
-            <h1 className="text-2xl font-serif font-bold text-accent-gold">
+            <h1 className="text-2xl font-serif font-bold text-accent-gold pr-2">
               Telegram Secrets
             </h1>
           </Link>
