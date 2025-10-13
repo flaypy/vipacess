@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install && npm cache clean --force
+RUN NODE_ENV=development npm install && npm cache clean --force
 
 # Build stage
 FROM node:18-alpine AS builder

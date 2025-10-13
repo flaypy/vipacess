@@ -1,17 +1,21 @@
-# Multi-stage build for production
-FROM node:18-alpine AS deps
+# Multi-stage build for production using a Debian-based image for better compatibility
+
+# ---- 1. Dependencies Stage ----
+FROM node:18-bullseye-slim AS deps
 WORKDIR /app
+
+# Install build tools just in case
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install ALL dependencies (including devDependencies for build)
-RUN npm install && \
-    npm cache clean --force
+# Install ALL dependencies
+RUN npm install && npm cache clean --force
 
-# Build stage
-FROM node:18-alpine AS builder
+# ---- 2. Builder Stage ----
+FROM node:18-bullseye-slim AS builder
 WORKDIR /app
 
 # Copy dependencies
@@ -28,9 +32,12 @@ COPY . .
 # Build TypeScript
 RUN npm run build
 
-# Production dependencies stage
-FROM node:18-alpine AS prod-deps
+# ---- 3. Production Dependencies Stage ----
+FROM node:18-bullseye-slim AS prod-deps
 WORKDIR /app
+
+# Install openssl which is required by Prisma's engine
+RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
 COPY prisma ./prisma/
@@ -40,16 +47,16 @@ RUN npm install --production && \
     npx prisma generate && \
     npm cache clean --force
 
-# Production stage
-FROM node:18-alpine AS runner
+# ---- 4. Production/Runner Stage ----
+FROM node:18-bullseye-slim AS runner
 WORKDIR /app
 
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init curl
+# Install required runtime packages
+RUN apt-get update && apt-get install -y --no-install-recommends dumb-init curl openssl && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nodejs
 
 # Copy production dependencies
 COPY --from=prod-deps --chown=nodejs:nodejs /app/node_modules ./node_modules
