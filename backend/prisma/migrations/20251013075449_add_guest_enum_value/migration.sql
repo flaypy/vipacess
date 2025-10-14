@@ -1,0 +1,6 @@
+-- AlterEnum
+ALTER TYPE "Role" ADD VALUE 'GUEST';
+
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "password" DROP NOT NULL,
+ALTER COLUMN "role" DROP DEFAULT;

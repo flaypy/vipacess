@@ -77,13 +77,13 @@ model Order {
   id                   String      @id @default(uuid())
   status               OrderStatus @default(PENDING)
   userId               String
-  priceId              String
+  priceId              String?
   pushinpayTxId        String?     // PushinPay transaction ID
   downloadLink         String?     // Generated upon completion
   createdAt            DateTime    @default(now())
 
   user                 User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  price                Price       @relation(fields: [priceId], references: [id])
+  price                Price?      @relation(fields: [priceId], references: [id], onDelete: SetNull)
 
   @@index([pushinpayTxId])
   @@map("orders")

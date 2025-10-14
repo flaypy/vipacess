@@ -181,9 +181,24 @@ export class PushinPayService {
   /**
    * Parse webhook payload
    */
+  // backend/src/services/pushinpay.ts
+
   parseWebhookPayload(payload: any): WebhookPayload {
+    // The transaction ID is nested inside a `transaction` object in the webhook payload.
+    // We log the entire payload to be sure.
+    console.log('Full raw webhook payload from PushinPay:', JSON.stringify(payload, null, 2));
+
+    const transactionId = payload.transaction?.id || payload.transaction_id;
+
+    if (!transactionId) {
+      console.error('CRITICAL: Could not find `transaction.id` or `transaction_id` in the webhook payload.');
+      throw new Error('Transaction ID not found in webhook payload');
+    }
+
+    console.log(`Successfully extracted transactionId: ${transactionId}`);
+
     return {
-      id: payload.id,
+      id: transactionId,
       status: payload.status,
       value: payload.value,
       end_to_end_id: payload.end_to_end_id,

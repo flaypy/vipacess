@@ -123,7 +123,7 @@ export default function ProductDetailsPage() {
               </h1>
 
               <div className="prose prose-invert mb-8">
-                <p className="text-gray-300 text-lg leading-relaxed">
+                <p className="text-gray-300 text-lg leading-relaxed whitespace-pre-wrap">
                   {product.description}
                 </p>
               </div>
@@ -138,7 +138,10 @@ export default function ProductDetailsPage() {
 
                   {product.prices && product.prices.length > 0 ? (
                     <div className="space-y-4">
-                      {product.prices.map((price) => (
+                      {product.prices
+                          .slice() // Cria uma cópia para não alterar o estado original
+                          .sort((a, b) => a.amount - b.amount) // Ordena pelo preço (amount)
+                          .map((price) => (
                         <div
                           key={price.id}
                           className="card-noir flex items-center justify-between hover:border-accent-rose transition-all"
