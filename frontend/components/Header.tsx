@@ -22,7 +22,7 @@ export default function Header() {
               priority
             />
             <h1 className="text-2xl font-serif font-bold text-accent-gold pr-2">
-              Telegram Secrets
+              Telegram Vips
             </h1>
           </Link>
 

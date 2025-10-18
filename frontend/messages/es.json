@@ -16,8 +16,8 @@
     "logout": "Salir"
   },
   "home": {
-    "title": "Telegram Secrets",
-    "subtitle": "Contenido Digital Exclusivo",
+    "title": "Secretos Ocultos de Telegram",
+    "subtitle": "Revela los secretos",
     "tagline": "Entra en el mundo del contenido exclusivo de alta calidad. Un club secreto para aquellos que buscan lo mejor.",
     "exploreButton": "Explorar Colección",
     "featuresTitle": "Por Qué Elegirnos",
@@ -38,8 +38,10 @@
   },
   "admin": {
     "title": "Panel de Administración",
+    "analytics": "Analytics",
     "products": "Productos",
     "orders": "Pedidos",
+    "settings": "Configuración",
     "createProduct": "Crear Producto",
     "editProduct": "Editar Producto",
     "productName": "Nombre del Producto",
@@ -49,7 +51,34 @@
     "noOrders": "No hay pedidos todavía",
     "orderStatus": "Estado",
     "orderDate": "Fecha",
-    "customer": "Cliente"
+    "customer": "Cliente",
+    "analytics": {
+      "title": "Panel de Analytics",
+      "subtitle": "Análisis detallado de ingresos y rendimiento",
+      "noData": "No hay datos disponibles",
+      "filters": "Filtros",
+      "period": "Período",
+      "today": "Hoy",
+      "last7Days": "Últimos 7 días",
+      "last30Days": "Últimos 30 días",
+      "last1Year": "Último año",
+      "product": "Producto",
+      "allProducts": "Todos los Productos",
+      "totalRevenue": "Ingresos Totales",
+      "totalOrders": "Pedidos Completados",
+      "pendingOrders": "Pedidos Pendientes",
+      "conversionRate": "Tasa de Conversión",
+      "averageOrderValue": "Valor Promedio del Pedido",
+      "uniqueCustomers": "Clientes Únicos",
+      "failedOrders": "Pedidos Fallidos",
+      "dailyRevenue": "Ingresos Diarios",
+      "revenue": "Ingresos",
+      "revenueByProduct": "Ingresos por Producto",
+      "revenueByCategory": "Ingresos por Categoría",
+      "productPerformance": "Rendimiento por Producto",
+      "orders": "Pedidos",
+      "avgOrderValue": "Valor Promedio"
+    }
   },
   "footer": {
     "rights": "Todos los derechos reservados",
@@ -76,5 +105,9 @@
     "telegramLinkNotAvailable": "Enlace de compra de Telegram no disponible",
     "whyTelegram": "¿Por qué Telegram?",
     "whyTelegramDesc": "Usamos Telegram para transacciones seguras y privadas con entrega instantánea y soporte 24/7."
+  },
+  "payment": {
+    "support": "Soporte",
+    "needHelp": "¿Necesitas ayuda? Contacta a nuestro equipo de soporte"
   }
 }

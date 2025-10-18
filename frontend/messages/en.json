@@ -16,10 +16,10 @@
     "logout": "Logout"
   },
   "home": {
-    "title": "Telegram Secrets",
-    "subtitle": "Exclusive Digital Content",
+    "title": "Telegram Hidden Secrets",
+    "subtitle": "Reveal the Secrets",
     "tagline": "Enter the world of exclusive, high-quality content. A secret club for those who seek the finest.",
-    "exploreButton": "Explore Collection",
+    "exploreButton": "Click Here",
     "featuresTitle": "Why Choose Us",
     "feature1Title": "Exclusive Content",
     "feature1Desc": "Curated collection of premium digital content",
@@ -38,6 +38,7 @@
   },
   "admin": {
     "title": "Admin Panel",
+    "analytics": "Analytics",
     "products": "Products",
     "orders": "Orders",
     "settings": "Settings",
@@ -50,7 +51,34 @@
     "noOrders": "No orders yet",
     "orderStatus": "Status",
     "orderDate": "Date",
-    "customer": "Customer"
+    "customer": "Customer",
+    "analytics": {
+      "title": "Analytics Dashboard",
+      "subtitle": "Detailed revenue and performance analysis",
+      "noData": "No data available",
+      "filters": "Filters",
+      "period": "Period",
+      "today": "Today",
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days",
+      "last1Year": "Last year",
+      "product": "Product",
+      "allProducts": "All Products",
+      "totalRevenue": "Total Revenue",
+      "totalOrders": "Completed Orders",
+      "pendingOrders": "Pending Orders",
+      "conversionRate": "Conversion Rate",
+      "averageOrderValue": "Average Order Value",
+      "uniqueCustomers": "Unique Customers",
+      "failedOrders": "Failed Orders",
+      "dailyRevenue": "Daily Revenue",
+      "revenue": "Revenue",
+      "revenueByProduct": "Revenue by Product",
+      "revenueByCategory": "Revenue by Category",
+      "productPerformance": "Product Performance",
+      "orders": "Orders",
+      "avgOrderValue": "Avg Order Value"
+    }
   },
   "footer": {
     "rights": "All rights reserved",
@@ -98,6 +126,8 @@
     "paymentExpires": "Payment expires in",
     "paymentNotFound": "Payment information not found",
     "paymentFailed": "Payment expired or failed",
-    "backToStore": "Back to Store"
+    "backToStore": "Back to Store",
+    "support": "Support",
+    "needHelp": "Need help? Contact our support team"
   }
 }

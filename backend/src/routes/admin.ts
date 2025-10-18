@@ -383,4 +383,180 @@ router.get('/orders', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * GET /api/admin/analytics
+ * Get analytics data with optional filters
+ * Query params: startDate, endDate, productId
+ */
+router.get('/analytics', async (req: Request, res: Response) => {
+  try {
+    const { startDate, endDate, productId } = req.query;
+
+    // Build date filter (convert from Brazil timezone to UTC for database query)
+    const dateFilter: any = {};
+    if (startDate) {
+      // Start of day in Brazil timezone (00:00 BRT) = 03:00 UTC
+      const startDateBr = new Date(startDate as string + 'T00:00:00-03:00');
+      dateFilter.gte = startDateBr;
+    }
+    if (endDate) {
+      // End of day in Brazil timezone (23:59:59 BRT) = 02:59:59 UTC next day
+      const endDateBr = new Date(endDate as string + 'T23:59:59-03:00');
+      dateFilter.lte = endDateBr;
+    }
+
+    // Build where clause
+    const whereClause: any = {
+      status: 'COMPLETED',
+    };
+
+    if (Object.keys(dateFilter).length > 0) {
+      whereClause.createdAt = dateFilter;
+    }
+
+    // Fetch completed orders with filters
+    const orders = await prisma.order.findMany({
+      where: whereClause,
+      include: {
+        price: {
+          include: {
+            product: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+
+    // Filter by product if specified
+    const filteredOrders = productId
+      ? orders.filter((order) => order.price?.product?.id === productId)
+      : orders;
+
+    // Calculate total revenue
+    const totalRevenue = filteredOrders.reduce(
+      (sum, order) => sum + (order.price?.amount || 0),
+      0
+    );
+
+    // Calculate revenue by product
+    const revenueByProduct: Record<string, { name: string; revenue: number; count: number }> = {};
+    filteredOrders.forEach((order) => {
+      if (order.price?.product) {
+        const productId = order.price.product.id;
+        if (!revenueByProduct[productId]) {
+          revenueByProduct[productId] = {
+            name: order.price.product.name,
+            revenue: 0,
+            count: 0,
+          };
+        }
+        revenueByProduct[productId].revenue += order.price.amount;
+        revenueByProduct[productId].count += 1;
+      }
+    });
+
+    // Calculate revenue by category (HD, 4K, etc.)
+    const revenueByCategory: Record<string, { revenue: number; count: number }> = {};
+    filteredOrders.forEach((order) => {
+      if (order.price) {
+        const category = order.price.category;
+        if (!revenueByCategory[category]) {
+          revenueByCategory[category] = { revenue: 0, count: 0 };
+        }
+        revenueByCategory[category].revenue += order.price.amount;
+        revenueByCategory[category].count += 1;
+      }
+    });
+
+    // Calculate daily revenue for chart (Brazil timezone UTC-3)
+    const dailyRevenue: Record<string, number> = {};
+    filteredOrders.forEach((order) => {
+      // Convert UTC to Brazil timezone (UTC-3 means subtract 3 hours from UTC to get local time)
+      // But since we want the date in Brazil timezone, we need to subtract 3 hours
+      const utcTime = order.createdAt.getTime();
+      const brazilTime = utcTime - (3 * 60 * 60 * 1000);
+      const brazilDate = new Date(brazilTime);
+      const date = brazilDate.toISOString().split('T')[0];
+      if (!dailyRevenue[date]) {
+        dailyRevenue[date] = 0;
+      }
+      dailyRevenue[date] += order.price?.amount || 0;
+    });
+
+    // Convert daily revenue to array format
+    const dailyRevenueArray = Object.entries(dailyRevenue)
+      .map(([date, revenue]) => ({ date, revenue }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    // Calculate conversion metrics (including PENDING orders)
+    const dateWhereClause: any = {};
+    if (Object.keys(dateFilter).length > 0) {
+      dateWhereClause.createdAt = dateFilter;
+    }
+
+    const totalOrders = await prisma.order.count({
+      where: dateWhereClause,
+    });
+
+    const completedOrders = filteredOrders.length;
+    const pendingOrders = await prisma.order.count({
+      where: {
+        ...dateWhereClause,
+        status: 'PENDING',
+      },
+    });
+    const failedOrders = await prisma.order.count({
+      where: {
+        ...dateWhereClause,
+        status: 'FAILED',
+      },
+    });
+
+    const conversionRate = totalOrders > 0 ? (completedOrders / totalOrders) * 100 : 0;
+
+    // Get unique customers
+    const uniqueCustomers = new Set(filteredOrders.map((order) => order.userId)).size;
+
+    // Calculate average order value
+    const averageOrderValue = completedOrders > 0 ? totalRevenue / completedOrders : 0;
+
+    // Response
+    res.json({
+      summary: {
+        totalRevenue,
+        totalOrders: completedOrders,
+        pendingOrders,
+        failedOrders,
+        conversionRate: Math.round(conversionRate * 100) / 100,
+        uniqueCustomers,
+        averageOrderValue: Math.round(averageOrderValue * 100) / 100,
+      },
+      revenueByProduct: Object.entries(revenueByProduct).map(([id, data]) => ({
+        productId: id,
+        productName: data.name,
+        revenue: data.revenue,
+        orders: data.count,
+      })),
+      revenueByCategory: Object.entries(revenueByCategory).map(([category, data]) => ({
+        category,
+        revenue: data.revenue,
+        orders: data.count,
+      })),
+      dailyRevenue: dailyRevenueArray,
+      recentOrders: filteredOrders.slice(-10).reverse(), // Last 10 orders
+    });
+  } catch (error) {
+    console.error('Error fetching analytics:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default router;

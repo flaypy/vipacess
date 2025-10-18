@@ -88,7 +88,8 @@ export default function AdminSettingsPage() {
               className="input-noir w-full"
             />
             <p className="text-sm text-gray-500 mt-2">
-              This link will be displayed in the footer for users to contact support.
+              This link will be displayed in the footer for users to conta
+              ct support.
               <br />
               Example: https://t.me/yourusername or https://t.me/+yourgroup
             </p>

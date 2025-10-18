@@ -23,7 +23,15 @@ router.get('/', async (req: Request, res: Response) => {
         isActive: true,
       },
       include: {
-        prices: true,
+        prices: {
+          include: {
+            orders: {
+              where: {
+                status: 'COMPLETED',
+              },
+            },
+          },
+        },
         regions: true,
       },
     });
@@ -52,16 +60,31 @@ router.get('/', async (req: Request, res: Response) => {
       });
     });
 
-    // Remove regions from response (internal data)
-    const responseProducts = filteredProducts.map(({ regions, ...product }) => ({
-      ...product,
-      availableInRegion: true,
-    }));
+    // Calculate sales count for each product and sort by sales (highest first)
+    const productsWithSales = filteredProducts.map((product) => {
+      const salesCount = product.prices.reduce((total, price) => {
+        return total + price.orders.length;
+      }, 0);
+
+      // Remove orders from prices before sending to client
+      const { regions, prices, ...productData } = product;
+      const cleanPrices = prices.map(({ orders, ...price }) => price);
+
+      return {
+        ...productData,
+        prices: cleanPrices,
+        availableInRegion: true,
+        salesCount,
+      };
+    });
+
+    // Sort by sales count (descending) - best sellers first
+    productsWithSales.sort((a, b) => b.salesCount - a.salesCount);
 
     res.json({
-      products: responseProducts,
+      products: productsWithSales,
       detectedCountry: userCountryCode,
-      totalCount: responseProducts.length,
+      totalCount: productsWithSales.length,
     });
   } catch (error) {
     console.error('Error fetching products:', error);

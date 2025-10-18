@@ -16,10 +16,10 @@
     "logout": "Sair"
   },
   "home": {
-    "title": "Telegram Secrets",
-    "subtitle": "Conteúdo Digital Exclusivo",
+    "title": "Telegram Ocultos Secrets",
+    "subtitle": "Revelar os Segredos",
     "tagline": "Entre no mundo do conteúdo exclusivo de alta qualidade. Um clube secreto para aqueles que buscam o melhor.",
-    "exploreButton": "Explorar Coleção",
+    "exploreButton": "Clique Aqui",
     "featuresTitle": "Por Que Nos Escolher",
     "feature1Title": "Conteúdo Exclusivo",
     "feature1Desc": "Coleção selecionada de conteúdo digital premium",
@@ -38,6 +38,7 @@
   },
   "admin": {
     "title": "Painel Administrativo",
+    "analytics": "Analytics",
     "products": "Produtos",
     "orders": "Pedidos",
     "settings": "Configurações",
@@ -50,7 +51,34 @@
     "noOrders": "Nenhum pedido ainda",
     "orderStatus": "Status",
     "orderDate": "Data",
-    "customer": "Cliente"
+    "customer": "Cliente",
+    "analytics": {
+      "title": "Dashboard de Analytics",
+      "subtitle": "Análise detalhada de ganhos e performance",
+      "noData": "Nenhum dado disponível",
+      "filters": "Filtros",
+      "period": "Período",
+      "today": "Hoje",
+      "last7Days": "Últimos 7 dias",
+      "last30Days": "Últimos 30 dias",
+      "last1Year": "Último ano",
+      "product": "Produto",
+      "allProducts": "Todos os Produtos",
+      "totalRevenue": "Receita Total",
+      "totalOrders": "Pedidos Completados",
+      "pendingOrders": "Pedidos Pendentes",
+      "conversionRate": "Taxa de Conversão",
+      "averageOrderValue": "Ticket Médio",
+      "uniqueCustomers": "Clientes Únicos",
+      "failedOrders": "Pedidos Falhados",
+      "dailyRevenue": "Receita Diária",
+      "revenue": "Receita",
+      "revenueByProduct": "Receita por Produto",
+      "revenueByCategory": "Receita por Categoria",
+      "productPerformance": "Performance por Produto",
+      "orders": "Pedidos",
+      "avgOrderValue": "Ticket Médio"
+    }
   },
   "footer": {
     "rights": "Todos os direitos reservados",
@@ -98,6 +126,8 @@
     "paymentExpires": "Pagamento expira em",
     "paymentNotFound": "Informações de pagamento não encontradas",
     "paymentFailed": "Pagamento expirou ou falhou",
-    "backToStore": "Voltar à Loja"
+    "backToStore": "Voltar à Loja",
+    "support": "Suporte",
+    "needHelp": "Precisa de ajuda? Entre em contato com nosso suporte"
   }
 }

@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 import hpp from 'hpp';
 import { geolocationMiddleware } from './middleware/geolocation';
+import { startOrderExpirationJob } from './services/orderExpiration';
 
 // Import routes
 import authRoutes from './routes/auth';
@@ -18,6 +19,7 @@ import settingsRoutes from './routes/settings';
 dotenv.config();
 
 const app: Application = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3002;
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -138,4 +140,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
+
+  // Start background jobs
+  startOrderExpirationJob();
 });

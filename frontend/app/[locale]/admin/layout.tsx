@@ -51,6 +51,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {/* Navigation */}
           <nav className="flex gap-4 border-b border-noir-light pb-4">
             <Link
+              href="/admin/analytics"
+              className="px-4 py-2 text-gray-300 hover:text-accent-gold transition-colors"
+            >
+              {t('analytics')}
+            </Link>
+            <Link
               href="/admin/products"
               className="px-4 py-2 text-gray-300 hover:text-accent-gold transition-colors"
             >
