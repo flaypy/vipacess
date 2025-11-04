@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SessionManager from '@/components/SessionManager';
 import PlausibleProvider from '@/components/PlausibleProvider';
+import WelcomePopup from '@/components/WelcomePopup';
 
 // Viewport configuration (separate from metadata in Next.js 14+)
 export const viewport: Viewport = {
@@ -123,6 +124,7 @@ export default async function LocaleLayout({
       <body>
       <SessionManager />
       <PlausibleProvider />
+      <WelcomePopup />
       <NextIntlClientProvider messages={messages}>
         <div className="min-h-screen flex flex-col">
           <Header />

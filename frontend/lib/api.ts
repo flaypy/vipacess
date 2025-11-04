@@ -79,6 +79,16 @@ export interface PixPaymentResponse {
   priceCategory: string;
 }
 
+export interface PopupConfig {
+  id: string;
+  message: string;
+  buttonText: string;
+  buttonLink: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // API functions
 export const productAPI = {
   getAll: async () => {
@@ -211,6 +221,14 @@ export const adminAPI = {
     return response.data;
   },
 
+  bulkUpdatePrices: async (priceIds: string[], deliveryLink: string) => {
+    const response = await api.put('/api/admin/prices/bulk-update', {
+      priceIds,
+      deliveryLink,
+    });
+    return response.data;
+  },
+
   deletePrice: async (priceId: string) => {
     const response = await api.delete(`/api/admin/prices/${priceId}`);
     return response.data;
@@ -242,6 +260,30 @@ export const settingsAPI = {
 
   updateSetting: async (key: string, value: string) => {
     const response = await api.put(`/api/settings/${key}`, { value });
+    return response.data;
+  },
+};
+
+export const popupAPI = {
+  // Public endpoint - get active popup configuration
+  getActive: async () => {
+    const response = await api.get<{ popup: PopupConfig | null }>('/api/popup');
+    return response.data;
+  },
+
+  // Admin endpoints
+  getConfig: async () => {
+    const response = await api.get<{ popup: PopupConfig | null }>('/api/admin/popup');
+    return response.data;
+  },
+
+  saveConfig: async (data: {
+    message: string;
+    buttonText: string;
+    buttonLink: string;
+    isActive?: boolean;
+  }) => {
+    const response = await api.put<{ popup: PopupConfig; message: string }>('/api/admin/popup', data);
     return response.data;
   },
 };

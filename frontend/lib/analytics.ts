@@ -1,31 +1,47 @@
-import { init, track } from '@plausible-analytics/tracker';
-
+// Dynamic import to avoid SSR issues
+let plausibleTracker: any = null;
 let isInitialized = false;
 
 // Initialize Plausible tracker
-export function initPlausible() {
+export async function initPlausible() {
   if (typeof window === 'undefined' || isInitialized) return;
 
-  init({
-    // Domain is automatically detected from window.location.hostname
-    domain: window.location.hostname,
-    endpoint: process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST
-      ? `${process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST}/api/event`
-      : 'https://plausible.io/api/event',
-    captureOnLocalhost: process.env.NODE_ENV === 'development',
-    autoCapturePageviews: true,
-  });
+  try {
+    // Dynamic import to avoid SSR issues with location
+    const { init } = await import('@plausible-analytics/tracker');
 
-  isInitialized = true;
+    plausibleTracker = init({
+      // Domain is automatically detected from window.location.hostname
+      domain: window.location.hostname,
+      endpoint: process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST
+        ? `${process.env.NEXT_PUBLIC_PLAUSIBLE_API_HOST}/api/event`
+        : 'https://plausible.io/api/event',
+      captureOnLocalhost: process.env.NODE_ENV === 'development',
+      autoCapturePageviews: true,
+    });
+
+    isInitialized = true;
+  } catch (error) {
+    console.error('Failed to initialize Plausible:', error);
+  }
 }
 
 // Track custom events
-export function trackEvent(eventName: string, props?: Record<string, any>) {
-  if (!isInitialized) return;
+export async function trackEvent(eventName: string, props?: Record<string, any>) {
+  if (typeof window === 'undefined') return;
 
-  track(eventName, {
-    props: props as Record<string, string>
-  });
+  if (!isInitialized) {
+    await initPlausible();
+  }
+
+  try {
+    const { track } = await import('@plausible-analytics/tracker');
+    track(eventName, {
+      props: props as Record<string, string>
+    });
+  } catch (error) {
+    console.error('Failed to track event:', error);
+  }
 }
 
 // Track specific business events

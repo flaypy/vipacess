@@ -293,6 +293,54 @@ router.post('/products/:productId/prices', async (req: Request, res: Response) =
 });
 
 /**
+ * PUT /api/admin/prices/bulk-update
+ * Update multiple price tiers at once (for bulk operations)
+ * IMPORTANT: This route must be BEFORE /prices/:id to avoid matching "bulk-update" as an ID
+ */
+router.put('/prices/bulk-update', async (req: Request, res: Response) => {
+  try {
+    const { priceIds, deliveryLink } = req.body;
+
+    // Validation
+    if (!priceIds || !Array.isArray(priceIds) || priceIds.length === 0) {
+      return res.status(400).json({
+        error: 'priceIds must be a non-empty array',
+      });
+    }
+
+    if (!deliveryLink) {
+      return res.status(400).json({
+        error: 'deliveryLink is required',
+      });
+    }
+
+    console.log(`Bulk updating ${priceIds.length} prices with deliveryLink: ${deliveryLink}`);
+
+    // Update all prices in a single transaction
+    const updateResult = await prisma.price.updateMany({
+      where: {
+        id: {
+          in: priceIds,
+        },
+      },
+      data: {
+        deliveryLink,
+      },
+    });
+
+    console.log(`Successfully updated ${updateResult.count} prices`);
+
+    res.json({
+      message: 'Prices updated successfully',
+      updatedCount: updateResult.count,
+    });
+  } catch (error) {
+    console.error('Error bulk updating prices:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
  * PUT /api/admin/prices/:id
  * Update a price tier
  */
@@ -310,14 +358,14 @@ router.put('/prices/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Price not found' });
     }
 
-    // Update price
+    // Update price - use explicit checks to allow empty strings
     const price = await prisma.price.update({
       where: { id },
       data: {
         amount: amount !== undefined ? amount : existingPrice.amount,
-        currency: currency || existingPrice.currency,
-        category: category || existingPrice.category,
-        deliveryLink: deliveryLink || existingPrice.deliveryLink,
+        currency: currency !== undefined ? currency : existingPrice.currency,
+        category: category !== undefined ? category : existingPrice.category,
+        deliveryLink: deliveryLink !== undefined ? deliveryLink : existingPrice.deliveryLink,
       },
     });
 
@@ -555,6 +603,74 @@ router.get('/analytics', async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Error fetching analytics:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * GET /api/admin/popup
+ * Get popup configuration
+ */
+router.get('/popup', async (req: Request, res: Response) => {
+  try {
+    // Get the first (and should be only) popup config
+    const popup = await prisma.popupConfig.findFirst();
+
+    res.json({ popup });
+  } catch (error) {
+    console.error('Error fetching popup config:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * PUT /api/admin/popup
+ * Create or update popup configuration
+ */
+router.put('/popup', async (req: Request, res: Response) => {
+  try {
+    const { message, buttonText, buttonLink, isActive } = req.body;
+
+    // Validation
+    if (!message || !buttonText || !buttonLink) {
+      return res.status(400).json({
+        error: 'message, buttonText, and buttonLink are required',
+      });
+    }
+
+    // Get existing popup or create new one
+    const existingPopup = await prisma.popupConfig.findFirst();
+
+    let popup;
+    if (existingPopup) {
+      // Update existing
+      popup = await prisma.popupConfig.update({
+        where: { id: existingPopup.id },
+        data: {
+          message,
+          buttonText,
+          buttonLink,
+          isActive: isActive !== undefined ? isActive : true,
+        },
+      });
+    } else {
+      // Create new
+      popup = await prisma.popupConfig.create({
+        data: {
+          message,
+          buttonText,
+          buttonLink,
+          isActive: isActive !== undefined ? isActive : true,
+        },
+      });
+    }
+
+    res.json({
+      message: 'Popup configuration saved successfully',
+      popup,
+    });
+  } catch (error) {
+    console.error('Error saving popup config:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

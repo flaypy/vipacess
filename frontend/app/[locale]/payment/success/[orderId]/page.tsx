@@ -14,22 +14,97 @@ export default function PaymentSuccessPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [errorType, setErrorType] = useState<'auth' | 'not_found' | 'network' | 'unknown'>('unknown');
+  const [retryCount, setRetryCount] = useState(0);
+  const [retrying, setRetrying] = useState(false);
   const [downloadCopied, setDownloadCopied] = useState(false);
 
   useEffect(() => {
-    fetchOrder();
+    fetchOrderWithRetry();
   }, [orderId]);
 
-  const fetchOrder = async () => {
-    try {
-      const data = await paymentAPI.getOrder(orderId);
-      setOrder(data.order);
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to load order');
-      console.error(err);
-    } finally {
-      setLoading(false);
+  const fetchOrderWithRetry = async (manualRetry = false) => {
+    const maxRetries = 3;
+    const baseDelay = 1000; // 1 segundo
+
+    if (manualRetry) {
+      setRetrying(true);
+      setError(null);
     }
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        // Verifica se o token existe antes de fazer a requisição
+        if (typeof window !== 'undefined') {
+          const token = localStorage.getItem('auth_token');
+          if (!token) {
+            console.error('No auth token found');
+            setErrorType('auth');
+            setError('Authentication token missing. Please refresh the page.');
+            setLoading(false);
+            setRetrying(false);
+            return;
+          }
+        }
+
+        console.log(`Fetching order (attempt ${attempt + 1}/${maxRetries + 1})...`);
+        const data = await paymentAPI.getOrder(orderId);
+
+        // Sucesso!
+        setOrder(data.order);
+        setError(null);
+        setRetryCount(0);
+        console.log('Order fetched successfully:', data.order);
+        break;
+
+      } catch (err: any) {
+        const status = err.response?.status;
+        const errorMessage = err.response?.data?.error;
+
+        console.error(`Fetch attempt ${attempt + 1} failed:`, {
+          status,
+          message: errorMessage,
+          fullError: err
+        });
+
+        // Determinar o tipo de erro
+        if (status === 403) {
+          setErrorType('auth');
+          setError('Access denied. Your session may have expired.');
+        } else if (status === 404) {
+          setErrorType('not_found');
+          setError('Order not found.');
+        } else if (status === 401) {
+          setErrorType('auth');
+          setError('Authentication failed. Please refresh the page.');
+        } else if (!status || status >= 500) {
+          setErrorType('network');
+          setError('Server error. Retrying...');
+        } else {
+          setErrorType('unknown');
+          setError(errorMessage || 'Failed to load order');
+        }
+
+        // Se não for o último attempt, aguarda e tenta novamente
+        if (attempt < maxRetries) {
+          // Não faz retry em erros de auth ou not found
+          if (status === 403 || status === 404 || status === 401) {
+            console.log('Not retrying due to auth/not-found error');
+            break;
+          }
+
+          const delay = baseDelay * Math.pow(2, attempt); // Exponential backoff
+          console.log(`Waiting ${delay}ms before retry...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          setRetryCount(attempt + 1);
+        } else {
+          console.error('Max retries reached');
+        }
+      }
+    }
+
+    setLoading(false);
+    setRetrying(false);
   };
 
   const copyDownloadLink = async () => {
@@ -46,8 +121,16 @@ export default function PaymentSuccessPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading order details...</p>
+          {retryCount > 0 && (
+            <p className="text-sm text-accent-rose mt-2">
+              Retry attempt {retryCount}...
+            </p>
+          )}
+        </div>
       </div>
     );
   }
@@ -55,13 +138,84 @@ export default function PaymentSuccessPage() {
   if (error || !order) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-400 mb-4">
-            {error || 'Order not found'}
-          </h1>
-          <Link href="/store" className="btn-secondary">
-            Back to Store
-          </Link>
+        <div className="max-w-md w-full">
+          <div className="card-noir text-center">
+            {/* Ícone de erro */}
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-600/20 mb-4">
+              <svg
+                className="w-10 h-10 text-red-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+
+            <h1 className="text-2xl font-bold text-red-400 mb-2">
+              {errorType === 'auth' && 'Authentication Error'}
+              {errorType === 'not_found' && 'Order Not Found'}
+              {errorType === 'network' && 'Connection Error'}
+              {errorType === 'unknown' && 'Error Loading Order'}
+            </h1>
+
+            <p className="text-gray-400 mb-6">
+              {error || 'Failed to load order details'}
+            </p>
+
+            {/* Botões de ação */}
+            <div className="space-y-3">
+              {/* Mostrar botão de retry para erros de rede */}
+              {(errorType === 'network' || errorType === 'unknown') && (
+                <button
+                  onClick={() => {
+                    setLoading(true);
+                    fetchOrderWithRetry(true);
+                  }}
+                  disabled={retrying}
+                  className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {retrying ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
+                      Retrying...
+                    </span>
+                  ) : (
+                    'Try Again'
+                  )}
+                </button>
+              )}
+
+              {/* Para erros de auth, sugerir refresh */}
+              {errorType === 'auth' && (
+                <button
+                  onClick={() => window.location.reload()}
+                  className="btn-primary w-full"
+                >
+                  Refresh Page
+                </button>
+              )}
+
+              <Link href="/store" className="btn-secondary block">
+                Back to Store
+              </Link>
+            </div>
+
+            {/* Informações de debug */}
+            {process.env.NODE_ENV === 'development' && (
+              <div className="mt-6 pt-6 border-t border-noir-light text-left">
+                <p className="text-xs text-gray-600 mb-2">Debug Info:</p>
+                <pre className="text-xs text-gray-500 bg-noir-darker p-2 rounded overflow-auto">
+                  {JSON.stringify({ errorType, orderId, hasToken: !!localStorage.getItem('auth_token') }, null, 2)}
+                </pre>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

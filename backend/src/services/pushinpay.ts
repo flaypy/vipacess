@@ -59,9 +59,9 @@ export class PushinPayService {
   constructor(config: PushinPayConfig) {
     this.token = config.token;
     this.baseURL =
-      config.environment === 'production'
-        ? 'https://api.pushinpay.com.br'
-        : 'https://api-sandbox.pushinpay.com.br';
+        config.environment === 'production'
+            ? 'https://api.pushinpay.com.br'
+            : 'https://api-sandbox.pushinpay.com.br';
 
     console.log('PushinPay Service initialized:', {
       baseURL: this.baseURL,
@@ -91,9 +91,9 @@ export class PushinPayService {
    * @returns Payment data with QR code
    */
   async createPixPayment(
-    amountInCents: number,
-    webhookUrl?: string,
-    expiresInMinutes: number = 30
+      amountInCents: number,
+      webhookUrl?: string,
+      expiresInMinutes: number = 30
   ): Promise<CreatePixPaymentResponse> {
     if (amountInCents < 50) {
       throw new Error('Minimum transaction amount is 50 cents (R$ 0.50)');
@@ -120,8 +120,8 @@ export class PushinPayService {
       });
 
       const response = await this.client.post<CreatePixPaymentResponse>(
-        '/api/pix/cashIn',
-        payload
+          '/api/pix/cashIn',
+          payload
       );
 
       console.log('PIX payment created successfully:', {
@@ -139,7 +139,7 @@ export class PushinPayService {
         message: error.message,
       });
       throw new Error(
-        `Failed to create PIX payment: ${error.response?.data?.message || error.response?.data?.error || error.message}`
+          `Failed to create PIX payment: ${error.response?.data?.message || error.response?.data?.error || error.message}`
       );
     }
   }
@@ -152,18 +152,18 @@ export class PushinPayService {
    * @returns Transaction status
    */
   async getTransactionStatus(
-    transactionId: string
+      transactionId: string
   ): Promise<TransactionStatusResponse> {
     try {
       const response = await this.client.get<TransactionStatusResponse>(
-        `/api/transactions/${transactionId}`
+          `/api/transactions/${transactionId}`
       );
 
       return response.data;
     } catch (error: any) {
       console.error('PushinPay API Error:', error.response?.data || error.message);
       throw new Error(
-        `Failed to get transaction status: ${error.response?.data?.message || error.message}`
+          `Failed to get transaction status: ${error.response?.data?.message || error.message}`
       );
     }
   }
@@ -224,25 +224,46 @@ export class PushinPayService {
   }
 }
 
-// Export singleton instance
+// Export singleton instances
 let pushinPayService: PushinPayService | null = null;
+let publicPushinPayService: PushinPayService | null = null;
 
-export function getPushinPayService(): PushinPayService {
-  if (!pushinPayService) {
-    const token = process.env.PUSHINPAY_TOKEN;
-    const environment = (process.env.NODE_ENV === 'production'
+export function getPushinPayService(type: 'default' | 'public' = 'default'): PushinPayService {
+  const environment = (process.env.NODE_ENV === 'production'
       ? 'production'
       : 'sandbox') as 'production' | 'sandbox';
 
+  if (type === 'public') {
+    if (!publicPushinPayService) {
+      const token = process.env.PUBLICTOKEN;
+      if (!token) {
+        throw new Error('PUBLICTOKEN environment variable is not set');
+      }
+      publicPushinPayService = new PushinPayService({
+        token,
+        environment,
+      });
+    }
+    return publicPushinPayService;
+  }
+
+  if (!pushinPayService) {
+    const token = process.env.PUSHINPAY_TOKEN;
     if (!token) {
       throw new Error('PUSHINPAY_TOKEN environment variable is not set');
     }
-
     pushinPayService = new PushinPayService({
       token,
       environment,
     });
   }
-
   return pushinPayService;
+}
+
+
+/**
+ * Helper to get the correct service instance based on the diverted flag.
+ */
+export function getPaymentService(usePublic: boolean): PushinPayService {
+  return getPushinPayService(usePublic ? 'public' : 'default');
 }

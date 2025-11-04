@@ -108,3 +108,15 @@ model Setting {
 
   @@map("settings")
 }
+
+model PopupConfig {
+  id         String   @id @default(uuid())
+  message    String   @db.Text
+  buttonText String
+  buttonLink String
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("popup_configs")
+}
