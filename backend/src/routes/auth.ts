@@ -139,7 +139,7 @@ router.post('/login', async (req: Request, res: Response) => {
 router.post('/guest', async (req: Request, res: Response) => {
   try {
     // 1. Gere um email único para o guest para evitar conflitos de constraint
-    const guestEmail = `guest_${randomUUID()}@telegram-secrets.com`;
+    const guestEmail = `guest_${randomUUID()}@vipacess.com`;
 
     // 2. Crie o usuário com a role 'GUEST' e sem senha
     // @ts-ignore

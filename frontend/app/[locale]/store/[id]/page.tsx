@@ -101,7 +101,7 @@ export default function ProductDetailsPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald"></div>
       </div>
     );
   }
@@ -139,7 +139,7 @@ export default function ProductDetailsPage() {
       <div className="min-h-screen py-16 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Back link */}
-          <Link href="/store" className="text-accent-gold hover:underline mb-8 inline-block">
+          <Link href="/store" className="text-accent-emerald hover:underline mb-8 inline-block">
             ← {t('backToStore')}
           </Link>
 
@@ -157,7 +157,7 @@ export default function ProductDetailsPage() {
                 />
                 {blackFridayPromo && (
                   <div className="absolute top-4 right-4 z-10">
-                    <div className="bg-gradient-to-r from-accent-rose to-accent-purple text-white font-bold px-4 py-3 rounded-xl shadow-lg transform rotate-3 animate-pulse">
+                    <div className="bg-gradient-to-r from-accent-gold to-accent-lime text-white font-bold px-4 py-3 rounded-xl shadow-lg transform rotate-3 animate-pulse">
                       <div className="text-sm uppercase tracking-wide">Black Friday</div>
                       <div className="text-2xl">-10% OFF</div>
                     </div>
@@ -201,7 +201,7 @@ export default function ProductDetailsPage() {
 
             {/* Product Info */}
             <div>
-              <h1 className="text-4xl font-serif font-bold text-accent-gold mb-4">
+              <h1 className="text-4xl font-serif font-bold text-accent-emerald mb-4">
                 {product.name}
               </h1>
 
@@ -216,8 +216,8 @@ export default function ProductDetailsPage() {
                 // BRAZIL: Show price tiers and payment options
                 <div>
                   {blackFridayPromo && (
-                    <div className="mb-6 p-4 bg-gradient-to-r from-accent-rose/20 to-accent-purple/20 rounded-lg border-2 border-accent-gold text-center">
-                      <p className="text-lg font-bold text-accent-gold">
+                    <div className="mb-6 p-4 bg-gradient-to-r from-accent-gold/20 to-accent-lime/20 rounded-lg border-2 border-accent-emerald text-center">
+                      <p className="text-lg font-bold text-accent-emerald">
                         🎉 Promoção Black Friday Ativa! 🎉
                       </p>
                       <p className="text-sm text-gray-300">
@@ -226,7 +226,7 @@ export default function ProductDetailsPage() {
                     </div>
                   )}
 
-                  <h2 className="text-2xl font-bold text-accent-rose mb-6">
+                  <h2 className="text-2xl font-bold text-accent-gold mb-6">
                     {t('selectQuality')}
                   </h2>
 
@@ -238,15 +238,15 @@ export default function ProductDetailsPage() {
                           .map((price) => (
                         <div
                           key={price.id}
-                          className="card-noir flex items-center justify-between hover:border-accent-rose transition-all"
+                          className="card-noir flex items-center justify-between hover:border-accent-emerald transition-all"
                         >
                           <div className="flex-1">
                             <div className="flex items-center gap-3">
-                              <h3 className="text-xl font-bold text-accent-gold">
+                              <h3 className="text-xl font-bold text-accent-emerald">
                                 {price.category}
                               </h3>
                               {blackFridayPromo && (
-                                <span className="bg-accent-rose text-white text-xs font-bold px-2 py-1 rounded uppercase">
+                                <span className="bg-accent-gold text-white text-xs font-bold px-2 py-1 rounded uppercase">
                                   -10%
                                 </span>
                               )}
@@ -270,18 +270,18 @@ export default function ProductDetailsPage() {
                   )}
 
                   <div className="mt-8 p-6 bg-noir-medium rounded-lg border border-noir-light">
-                    <h3 className="font-bold text-accent-purple mb-2">{t('securePayment')}</h3>
+                    <h3 className="font-bold text-accent-lime mb-2">{t('securePayment')}</h3>
                     <p className="text-sm text-gray-400">{t('securePaymentDesc')}</p>
                   </div>
                 </div>
               ) : (
                 // NON-BRAZIL: Show Telegram purchase button only
                 <div>
-                  <h2 className="text-2xl font-bold text-accent-purple mb-6">
+                  <h2 className="text-2xl font-bold text-accent-lime mb-6">
                     {t('purchaseViaTelegram')}
                   </h2>
 
-                  <div className="card-noir bg-gradient-to-br from-accent-purple/10 to-noir-dark border-accent-purple">
+                  <div className="card-noir bg-gradient-to-br from-accent-lime/10 to-noir-dark border-accent-lime">
                     <p className="text-gray-300 mb-6">
                       {t('telegramPurchaseDesc')}
                     </p>
@@ -301,7 +301,7 @@ export default function ProductDetailsPage() {
                   </div>
 
                   <div className="mt-6 p-6 bg-noir-medium rounded-lg border border-noir-light">
-                    <h3 className="font-bold text-accent-gold mb-2">{t('whyTelegram')}</h3>
+                    <h3 className="font-bold text-accent-emerald mb-2">{t('whyTelegram')}</h3>
                     <p className="text-sm text-gray-400">{t('whyTelegramDesc')}</p>
                   </div>
                 </div>

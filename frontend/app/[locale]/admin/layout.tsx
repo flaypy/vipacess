@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald"></div>
       </div>
     );
   }
@@ -44,7 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Admin Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-serif font-bold text-accent-gold mb-4">
+          <h1 className="text-4xl font-serif font-bold text-accent-emerald mb-4">
             {t('title')}
           </h1>
 
@@ -52,25 +52,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <nav className="flex gap-4 border-b border-noir-light pb-4">
             <Link
               href="/admin/analytics"
-              className="px-4 py-2 text-gray-300 hover:text-accent-gold transition-colors"
+              className="px-4 py-2 text-gray-300 hover:text-accent-emerald transition-colors"
             >
               {t('analytics')}
             </Link>
             <Link
               href="/admin/products"
-              className="px-4 py-2 text-gray-300 hover:text-accent-gold transition-colors"
+              className="px-4 py-2 text-gray-300 hover:text-accent-emerald transition-colors"
             >
               {t('products')}
             </Link>
             <Link
               href="/admin/orders"
-              className="px-4 py-2 text-gray-300 hover:text-accent-gold transition-colors"
+              className="px-4 py-2 text-gray-300 hover:text-accent-emerald transition-colors"
             >
               {t('orders')}
             </Link>
             <Link
               href="/admin/settings"
-              className="px-4 py-2 text-gray-300 hover:text-accent-gold transition-colors"
+              className="px-4 py-2 text-gray-300 hover:text-accent-emerald transition-colors"
             >
               {t('settings')}
             </Link>

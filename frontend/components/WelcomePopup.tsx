@@ -63,9 +63,9 @@ export default function WelcomePopup() {
           animation: 'scaleIn 0.3s ease-out',
         }}
       >
-        <div className="relative bg-gradient-to-br from-dark via-dark-lighter to-dark border-2 border-accent-gold/30 rounded-lg shadow-2xl overflow-hidden">
+        <div className="relative bg-gradient-to-br from-dark via-dark-lighter to-dark border-2 border-accent-emerald/30 rounded-lg shadow-2xl overflow-hidden">
           {/* Decorative gradient line at top */}
-          <div className="h-1 bg-gradient-to-r from-accent-gold via-accent-rose to-accent-purple" />
+          <div className="h-1 bg-gradient-to-r from-accent-emerald via-accent-gold to-accent-lime" />
 
           {/* Close button */}
           <button
@@ -99,7 +99,7 @@ export default function WelcomePopup() {
             {/* Button */}
             <button
               onClick={handleButtonClick}
-              className="w-full bg-gradient-to-r from-accent-gold to-accent-rose hover:from-accent-gold/90 hover:to-accent-rose/90 text-dark font-bold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-accent-gold/50"
+              className="w-full bg-gradient-to-r from-accent-emerald to-accent-gold hover:from-accent-emerald/90 hover:to-accent-gold/90 text-dark font-bold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-accent-emerald/50"
             >
               {popup.buttonText}
             </button>

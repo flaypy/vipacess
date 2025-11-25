@@ -10,8 +10,8 @@
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 bg-accent-gold text-noir-darker font-semibold rounded-lg
-    hover:bg-accent-gold/90 transition-all duration-300 hover:scale-105;
+    @apply px-6 py-3 bg-accent-emerald text-white font-semibold rounded-lg
+    hover:bg-accent-lime transition-all duration-300 hover:scale-105;
   }
 
   .btn-secondary {
@@ -21,13 +21,13 @@
 
   .card-noir {
     @apply bg-noir-dark border border-noir-light rounded-lg p-6
-    hover:border-accent-gold/50 transition-all duration-300;
+    hover:border-accent-emerald/50 transition-all duration-300;
   }
 
   .input-noir {
     @apply w-full px-4 py-2 bg-noir-medium border border-noir-light
-    rounded-lg text-gray-100 focus:border-accent-gold focus:outline-none
-    focus:ring-2 focus:ring-accent-gold/20 transition-all;
+    rounded-lg text-gray-100 focus:border-accent-emerald focus:outline-none
+    focus:ring-2 focus:ring-accent-emerald/20 transition-all;
   }
 }
 
@@ -37,14 +37,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: #111827;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #404040;
+  background: #374151;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d4af37;
+  background: #047857;
 }

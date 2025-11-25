@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ===================================================
-# PostgreSQL Backup Script for Telegram Secrets
+# PostgreSQL Backup Script for Vip Acess
 # ===================================================
 # This script creates automated database backups
 # Usage: ./scripts/backup-database.sh
@@ -10,10 +10,10 @@
 set -e
 
 # Configuration
-BACKUP_DIR="/var/backups/telegram-secrets"
-CONTAINER_NAME="telegram_secrets_db"
-DB_NAME="${POSTGRES_DB:-telegram_secrets_db}"
-DB_USER="${POSTGRES_USER:-telegram_secrets}"
+BACKUP_DIR="/var/backups/vipacess"
+CONTAINER_NAME="vipacess_db"
+DB_NAME="${POSTGRES_DB:-vipacess_db}"
+DB_USER="${POSTGRES_USER:-vipacess}"
 RETENTION_DAYS=30
 
 # Create backup directory if it doesn't exist
@@ -21,7 +21,7 @@ mkdir -p "$BACKUP_DIR"
 
 # Generate timestamp
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-BACKUP_FILE="$BACKUP_DIR/telegram_secrets_${TIMESTAMP}.sql.gz"
+BACKUP_FILE="$BACKUP_DIR/vipacess_${TIMESTAMP}.sql.gz"
 
 echo "=========================================="
 echo "Starting database backup"
@@ -49,7 +49,7 @@ fi
 
 # Delete old backups
 echo "Cleaning up old backups (retention: ${RETENTION_DAYS} days)"
-find "$BACKUP_DIR" -name "telegram_secrets_*.sql.gz" -type f -mtime +${RETENTION_DAYS} -delete
+find "$BACKUP_DIR" -name "vipacess_*.sql.gz" -type f -mtime +${RETENTION_DAYS} -delete
 echo "  Remaining backups: $(ls -1 "$BACKUP_DIR" | wc -l)"
 
 # Create a symlink to the latest backup

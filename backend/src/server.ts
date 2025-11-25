@@ -69,7 +69,7 @@ if (isProduction) {
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: isProduction ? 100 : 1000, // 100 requests per 15 minutes in production
+  max: isProduction ? 1000 : 1000, // 100 requests per 15 minutes in production
   message: 'Too many requests from this IP, please try again later.',
   standardHeaders: true,
   legacyHeaders: false,
@@ -81,7 +81,7 @@ app.use(limiter);
 // Stricter rate limiting for authentication routes
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 5, // 5 login attempts per 15 minutes
+  max: 25, // 5 login attempts per 15 minutes
   message: 'Too many login attempts, please try again later.',
   skipSuccessfulRequests: true,
 });

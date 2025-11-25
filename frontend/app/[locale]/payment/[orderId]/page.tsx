@@ -94,7 +94,7 @@ export default function PaymentPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald"></div>
       </div>
     );
   }
@@ -119,7 +119,7 @@ export default function PaymentPage() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-serif font-bold text-accent-gold mb-2">
+          <h1 className="text-4xl font-serif font-bold text-accent-emerald mb-2">
             {t('pixPayment')}
           </h1>
           <p className="text-gray-400">
@@ -130,7 +130,7 @@ export default function PaymentPage() {
         {/* Payment Info Card */}
         <div className="card-noir mb-6">
           <div className="border-b border-noir-light pb-4 mb-4">
-            <h2 className="text-xl font-bold text-accent-gold mb-2">
+            <h2 className="text-xl font-bold text-accent-emerald mb-2">
               {paymentData.productName}
             </h2>
             <p className="text-gray-400">{paymentData.priceCategory}</p>
@@ -138,7 +138,7 @@ export default function PaymentPage() {
 
           <div className="flex justify-between items-center text-lg">
             <span className="text-gray-300">{t('amountToPay')}:</span>
-            <span className="text-3xl font-bold text-accent-rose">
+            <span className="text-3xl font-bold text-accent-gold">
               {paymentData.amount}
             </span>
           </div>
@@ -146,7 +146,7 @@ export default function PaymentPage() {
 
         {/* QR Code */}
         <div className="card-noir text-center mb-6">
-          <h3 className="text-xl font-bold text-accent-purple mb-4">
+          <h3 className="text-xl font-bold text-accent-lime mb-4">
             {t('scanWithApp')}
           </h3>
 
@@ -185,7 +185,7 @@ export default function PaymentPage() {
 
         {/* Copy-Paste Code */}
         <div className="card-noir mb-6">
-          <h3 className="text-xl font-bold text-accent-gold mb-4">
+          <h3 className="text-xl font-bold text-accent-emerald mb-4">
             {t('orCopyCode')}
           </h3>
 
@@ -214,7 +214,7 @@ export default function PaymentPage() {
           </p>
 
           <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-accent-gold"></div>
+            <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-accent-emerald"></div>
             <span className="text-sm text-gray-500">
               {t('checkingStatus')}
             </span>
@@ -235,7 +235,7 @@ export default function PaymentPage() {
 
         {/* Back Link */}
         <div className="text-center mt-8">
-          <Link href="/store" className="text-accent-gold hover:underline">
+          <Link href="/store" className="text-accent-emerald hover:underline">
             ← {t('backToStore')}
           </Link>
         </div>

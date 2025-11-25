@@ -196,7 +196,7 @@ export class SyncPayService {
 
       const payload: CreateCashInRequest = {
         amount: amountInReais,
-        description: 'Payment via Telegram Secrets',
+        description: 'Payment via Vip Acess',
         webhook_url: webhookUrl,
         client: clientInfo,
       };

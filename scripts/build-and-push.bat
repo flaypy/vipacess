@@ -3,7 +3,7 @@ REM Build and Push Script for Docker Images (Windows)
 REM Run this on your DEVELOPMENT MACHINE to build and push images to Docker Hub
 
 echo ==========================================
-echo Telegram Secrets - Build ^& Push to Docker Hub
+echo Vip Acess - Build ^& Push to Docker Hub
 echo ==========================================
 
 REM Check if .env.production.local exists

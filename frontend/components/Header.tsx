@@ -15,14 +15,14 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-3">
             <Image
               src="/logo.png"
-              alt="Telegram Secrets Logo"
+              alt="Vip Acess Logo"
               width={40}
               height={40}
               className="object-contain"
               priority
             />
-            <h1 className="text-2xl font-serif font-bold text-accent-gold pr-2">
-              Telegram Vips
+            <h1 className="text-2xl font-serif font-bold text-accent-emerald pr-2">
+              Vip Acess
             </h1>
           </Link>
 
@@ -30,13 +30,13 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-6">
             <Link
               href="/"
-              className="text-gray-300 hover:text-accent-gold transition-colors"
+              className="text-gray-300 hover:text-accent-emerald transition-colors"
             >
               {t('home')}
             </Link>
             <Link
               href="/store"
-              className="text-gray-300 hover:text-accent-gold transition-colors"
+              className="text-gray-300 hover:text-accent-emerald transition-colors"
             >
               {t('store')}
             </Link>

@@ -4,7 +4,7 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: telegram_secrets_db_prod
+    container_name: vipacess_db_prod
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -17,7 +17,7 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     networks:
-      - telegram_secrets_network
+      - vipacess_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
@@ -27,12 +27,15 @@ services:
   # Backend API - Using pre-built image from Docker Hub
   backend:
     image: ${DOCKER_USERNAME}/${BACKEND_IMAGE_NAME}:${IMAGE_TAG}
-    container_name: telegram_secrets_backend_prod
+    container_name: vipacess_backend_prod
     restart: unless-stopped
     environment:
       NODE_ENV: production
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
       JWT_SECRET: ${JWT_SECRET}
+      SYNCPAY_CLIENT_ID: ${SYNCPAY_CLIENT_ID}
+      SYNCPAY_CLIENT_SECRET: ${SYNCPAY_CLIENT_SECRET}
+      SYNCPAY_BASE_URL: ${SYNCPAY_BASE_URL}
       PUSHINPAY_API_KEY: ${PUSHINPAY_API_KEY}
       PUSHINPAY_MERCHANT_ID: ${PUSHINPAY_MERCHANT_ID}
       PUSHINPAY_WEBHOOK_SECRET: ${PUSHINPAY_WEBHOOK_SECRET}
@@ -45,7 +48,7 @@ services:
     ports:
       - "127.0.0.1:3001:3001"
     networks:
-      - telegram_secrets_network
+      - vipacess_network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
       interval: 30s
@@ -56,7 +59,7 @@ services:
   # Frontend - Using pre-built image from Docker Hub
   frontend:
     image: ${DOCKER_USERNAME}/${FRONTEND_IMAGE_NAME}:${IMAGE_TAG}
-    container_name: telegram_secrets_frontend_prod
+    container_name: vipacess_frontend_prod
     restart: unless-stopped
     environment:
       NODE_ENV: production
@@ -71,7 +74,7 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     networks:
-      - telegram_secrets_network
+      - vipacess_network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 30s
@@ -80,7 +83,7 @@ services:
       start_period: 40s
 
 networks:
-  telegram_secrets_network:
+  vipacess_network:
     driver: bridge
 
 volumes:

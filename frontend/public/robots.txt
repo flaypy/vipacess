@@ -1,4 +1,4 @@
-# robots.txt for Telegram Secrets
+# robots.txt for Vip Acess
 
 # Allow all search engines to crawl the site
 User-agent: *
@@ -17,7 +17,7 @@ Disallow: /api/
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://telegram-secrets.com/sitemap.xml
+Sitemap: https://telegramacessovip.com/sitemap.xml
 
 # Specific rules for major search engines
 User-agent: Googlebot

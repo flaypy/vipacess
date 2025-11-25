@@ -100,7 +100,7 @@ export default function AdminSettingsPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald"></div>
       </div>
     );
   }
@@ -108,7 +108,7 @@ export default function AdminSettingsPage() {
   return (
     <div className="min-h-screen py-16 px-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-serif font-bold text-accent-gold mb-8">
+        <h1 className="text-4xl font-serif font-bold text-accent-emerald mb-8">
           Settings
         </h1>
 
@@ -125,7 +125,7 @@ export default function AdminSettingsPage() {
         )}
 
         <form onSubmit={handleSave} className="card-noir">
-          <h2 className="text-2xl font-bold text-accent-purple mb-6">
+          <h2 className="text-2xl font-bold text-accent-lime mb-6">
             Contact Information
           </h2>
 
@@ -178,12 +178,12 @@ export default function AdminSettingsPage() {
 
         {/* Black Friday Promotion Section */}
         <form onSubmit={handleSave} className="card-noir mt-8">
-          <h2 className="text-2xl font-bold text-accent-rose mb-6 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-accent-gold mb-6 flex items-center gap-2">
             <span>🔥</span>
             Black Friday Promotion
           </h2>
 
-          <div className="mb-6 p-6 bg-gradient-to-r from-accent-rose/10 to-accent-purple/10 rounded-lg border border-accent-gold/30">
+          <div className="mb-6 p-6 bg-gradient-to-r from-accent-gold/10 to-accent-lime/10 rounded-lg border border-accent-emerald/30">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 mt-1">
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -193,11 +193,11 @@ export default function AdminSettingsPage() {
                     onChange={(e) => setBlackFridayPromo(e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-14 h-7 bg-noir-dark peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-accent-gold/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-accent-rose peer-checked:to-accent-purple"></div>
+                  <div className="w-14 h-7 bg-noir-dark peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-accent-emerald/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-accent-emerald peer-checked:to-accent-gold"></div>
                 </label>
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-accent-gold mb-2">
+                <h3 className="text-lg font-bold text-accent-emerald mb-2">
                   {blackFridayPromo ? '✅ Promoção Ativa' : 'Ativar Promoção Black Friday'}
                 </h3>
                 <p className="text-sm text-gray-400 mb-3">
@@ -211,9 +211,9 @@ export default function AdminSettingsPage() {
                   <li>Badge de "-10%" nos cards de produtos</li>
                   <li>Indicação visual de desconto nas páginas de produtos</li>
                 </ul>
-                <div className="mt-4 p-3 bg-noir-dark rounded border border-accent-gold/50">
+                <div className="mt-4 p-3 bg-noir-dark rounded border border-accent-emerald/50">
                   <p className="text-xs text-gray-400">
-                    <strong className="text-accent-gold">Nota:</strong> Esta opção apenas controla a exibição visual da promoção.
+                    <strong className="text-accent-emerald">Nota:</strong> Esta opção apenas controla a exibição visual da promoção.
                     Os preços devem ser ajustados manualmente na seção de produtos.
                   </p>
                 </div>
@@ -224,7 +224,7 @@ export default function AdminSettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-accent-rose to-accent-purple hover:from-accent-purple hover:to-accent-rose"
+            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-accent-emerald to-accent-gold hover:from-accent-gold hover:to-accent-lime"
           >
             {saving ? 'Saving...' : 'Save Promotion Settings'}
           </button>
@@ -232,7 +232,7 @@ export default function AdminSettingsPage() {
 
         {/* Popup Configuration Section */}
         <form onSubmit={handleSavePopup} className="card-noir mt-8">
-          <h2 className="text-2xl font-bold text-accent-purple mb-6">
+          <h2 className="text-2xl font-bold text-accent-lime mb-6">
             Popup Configuration
           </h2>
 
@@ -254,7 +254,7 @@ export default function AdminSettingsPage() {
                 type="checkbox"
                 checked={popupIsActive}
                 onChange={(e) => setPopupIsActive(e.target.checked)}
-                className="mr-3 h-5 w-5 rounded border-gray-600 bg-dark-lighter text-accent-gold focus:ring-accent-gold focus:ring-offset-0"
+                className="mr-3 h-5 w-5 rounded border-gray-600 bg-dark-lighter text-accent-emerald focus:ring-accent-emerald focus:ring-offset-0"
               />
               <span className="text-gray-300 font-medium">Enable Popup</span>
             </label>

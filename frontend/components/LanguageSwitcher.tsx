@@ -28,8 +28,8 @@ export default function LanguageSwitcher() {
         value={currentLocale}
         onChange={(e) => handleChange(e.target.value as Locale)}
         className="bg-noir-medium border border-noir-light text-gray-300 px-4 py-2 rounded-lg
-        hover:border-accent-gold focus:border-accent-gold focus:outline-none
-        focus:ring-2 focus:ring-accent-gold/20 transition-all cursor-pointer"
+        hover:border-accent-emerald focus:border-accent-emerald focus:outline-none
+        focus:ring-2 focus:ring-accent-emerald/20 transition-all cursor-pointer"
       >
         {locales.map((locale) => (
           <option key={locale} value={locale}>

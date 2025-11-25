@@ -26,7 +26,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegram-secrets.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramacessovip.com';
   const logoUrl = `${siteUrl}/logo.png`;
 
   return {
@@ -36,9 +36,9 @@ export async function generateMetadata({
     },
     description: t('description'),
     keywords: t('keywords'),
-    authors: [{ name: 'Telegram Secrets' }],
-    creator: 'Telegram Secrets',
-    publisher: 'Telegram Secrets',
+    authors: [{ name: 'Vip Acess' }],
+    creator: 'Vip Acess',
+    publisher: 'Vip Acess',
 
     // Robots and indexing
     robots: {
@@ -77,7 +77,7 @@ export async function generateMetadata({
       title: t('title'),
       description: t('description'),
       images: [logoUrl],
-      creator: '@telegram_secrets',
+      creator: '@vipacess',
     },
 
     // Verification and webmaster tools

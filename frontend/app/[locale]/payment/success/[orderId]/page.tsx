@@ -123,10 +123,10 @@ export default function PaymentSuccessPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald mx-auto mb-4"></div>
           <p className="text-gray-400">Loading order details...</p>
           {retryCount > 0 && (
-            <p className="text-sm text-accent-rose mt-2">
+            <p className="text-sm text-accent-gold mt-2">
               Retry attempt {retryCount}...
             </p>
           )}
@@ -242,7 +242,7 @@ export default function PaymentSuccessPage() {
             </svg>
           </div>
 
-          <h1 className="text-4xl font-serif font-bold text-accent-gold mb-2">
+          <h1 className="text-4xl font-serif font-bold text-accent-emerald mb-2">
             Payment Successful!
           </h1>
           <p className="text-gray-400">
@@ -253,7 +253,7 @@ export default function PaymentSuccessPage() {
         {/* Order Details */}
         <div className="card-noir mb-6">
           <div className="border-b border-noir-light pb-4 mb-4">
-            <h2 className="text-xl font-bold text-accent-gold mb-2">
+            <h2 className="text-xl font-bold text-accent-emerald mb-2">
               Order Details
             </h2>
             <p className="text-gray-400 text-sm">Order ID: {order.id}</p>
@@ -273,7 +273,7 @@ export default function PaymentSuccessPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">Amount Paid:</span>
-                <span className="text-accent-rose font-bold text-lg">
+                <span className="text-accent-gold font-bold text-lg">
                   {order.price.currency} {order.price.amount.toFixed(2)}
                 </span>
               </div>
@@ -290,7 +290,7 @@ export default function PaymentSuccessPage() {
         {/* Download Link */}
         {order.downloadLink && (
           <div className="card-noir mb-6">
-            <h3 className="text-xl font-bold text-accent-purple mb-4">
+            <h3 className="text-xl font-bold text-accent-lime mb-4">
               Download Your Content
             </h3>
 
@@ -327,7 +327,7 @@ export default function PaymentSuccessPage() {
                 href="https://t.me/SUPORTEPARADISE02"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-accent-gold hover:text-accent-rose transition-colors"
+                className="inline-flex items-center gap-2 text-accent-emerald hover:text-accent-lime transition-colors"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"></path>

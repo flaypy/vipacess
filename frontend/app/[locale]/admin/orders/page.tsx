@@ -27,14 +27,14 @@ export default function AdminOrdersPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald"></div>
       </div>
     );
   }
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-6 text-accent-gold">{t('orders')}</h2>
+      <h2 className="text-3xl font-bold mb-6 text-accent-emerald">{t('orders')}</h2>
 
       {orders.length === 0 ? (
         <div className="card-noir text-center py-16">

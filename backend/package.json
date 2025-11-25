@@ -1,7 +1,7 @@
 {
-  "name": "telegram-secrets-backend",
+  "name": "vipacess-backend",
   "version": "1.0.0",
-  "description": "Backend API for Telegram Secrets e-commerce platform",
+  "description": "Backend API for Vip Acess e-commerce platform",
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",

@@ -43,7 +43,7 @@ export default function StorePage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald"></div>
       </div>
     );
   }
@@ -68,12 +68,12 @@ export default function StorePage() {
         <div className="text-center mb-8 md:mb-12">
           {blackFridayPromo && (
             <div className="inline-block mb-4 animate-bounce">
-              <span className="bg-gradient-to-r from-accent-gold via-accent-rose to-accent-purple text-white font-bold text-sm md:text-lg px-4 md:px-6 py-2 rounded-full uppercase tracking-wider shadow-lg">
+              <span className="bg-gradient-to-r from-accent-emerald via-accent-gold to-accent-lime text-white font-bold text-sm md:text-lg px-4 md:px-6 py-2 rounded-full uppercase tracking-wider shadow-lg">
                 🔥 Black Friday - 10% OFF em Tudo! 🔥
               </span>
             </div>
           )}
-          <h1 className="text-3xl md:text-5xl font-serif font-bold mb-3 md:mb-4 text-accent-gold">
+          <h1 className="text-3xl md:text-5xl font-serif font-bold mb-3 md:mb-4 text-accent-emerald">
             {t('title')}
           </h1>
           <p className="text-base md:text-xl text-gray-400 mb-4">{t('subtitle')}</p>

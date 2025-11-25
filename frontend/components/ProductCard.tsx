@@ -47,7 +47,7 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
         )}
         {showDiscount && product.isActive && (
           <div className="absolute top-2 md:top-3 right-2 md:right-3 z-10">
-            <div className="bg-gradient-to-r from-accent-rose to-accent-purple text-white font-bold px-2 md:px-3 py-1 md:py-2 rounded-lg shadow-lg transform rotate-3 animate-pulse">
+            <div className="bg-gradient-to-r from-accent-gold to-accent-lime text-white font-bold px-2 md:px-3 py-1 md:py-2 rounded-lg shadow-lg transform rotate-3 animate-pulse">
               <div className="text-xs uppercase tracking-wide">Black Friday</div>
               <div className="text-base md:text-lg">-10%</div>
             </div>
@@ -57,7 +57,7 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
 
       {/* Content */}
       <div>
-        <h3 className="text-lg md:text-xl font-bold mb-2 text-accent-gold group-hover:text-accent-rose transition-colors">
+        <h3 className="text-lg md:text-xl font-bold mb-2 text-accent-emerald group-hover:text-accent-lime transition-colors">
           {product.name}
         </h3>
         <p className="text-gray-400 text-sm mb-3 md:mb-4 line-clamp-2">
@@ -85,7 +85,7 @@ export default function ProductCard({ product, showDiscount = false }: ProductCa
           {secondMostExpensive && (
             <div className="flex justify-between items-center text-xs md:text-sm">
               <span className="text-gray-500">{t('recommended')}</span>
-              <span className="font-bold text-accent-gold">
+              <span className="font-bold text-accent-emerald">
                 {secondMostExpensive.currency} {secondMostExpensive.amount.toFixed(2)}
               </span>
             </div>

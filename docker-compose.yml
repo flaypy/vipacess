@@ -4,12 +4,12 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: telegram_secrets_db
+    container_name: vipacess_db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-telegram_secrets}
+      POSTGRES_USER: ${POSTGRES_USER:-vipacess}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-telegram_secrets_db}
+      POSTGRES_DB: ${POSTGRES_DB:-vipacess_db}
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -17,9 +17,9 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     networks:
-      - telegram_secrets_network
+      - vipacess_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-telegram_secrets}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-vipacess}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -51,12 +51,12 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: telegram_secrets_backend
+    container_name: vipacess_backend
     restart: unless-stopped
     environment:
       NODE_ENV: production
       PORT: 3001
-      DATABASE_URL: postgresql://${POSTGRES_USER:-telegram_secrets}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-telegram_secrets_db}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-vipacess}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-vipacess_db}
       JWT_SECRET: ${JWT_SECRET}
       PUSHINPAY_TOKEN: ${PUSHINPAY_TOKEN}
       FRONTEND_URL: ${FRONTEND_URL}
@@ -65,7 +65,7 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - telegram_secrets_network
+      - vipacess_network
     ports:
       - "127.0.0.1:3001:3001"
     healthcheck:
@@ -85,7 +85,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: telegram_secrets_frontend
+    container_name: vipacess_frontend
     restart: unless-stopped
     environment:
       NODE_ENV: production
@@ -94,7 +94,7 @@ services:
     depends_on:
       - backend
     networks:
-      - telegram_secrets_network
+      - vipacess_network
     ports:
       - "127.0.0.1:3000:3000"
     healthcheck:
@@ -110,7 +110,7 @@ services:
         max-file: "3"
 
 networks:
-  telegram_secrets_network:
+  vipacess_network:
     driver: bridge
 
 volumes:

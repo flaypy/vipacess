@@ -19,7 +19,7 @@ interface ProductStructuredDataProps {
  * Helps search engines understand product information
  */
 export function ProductStructuredData({ product, locale }: ProductStructuredDataProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegram-secrets.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramacessovip.com';
 
   // Find the lowest price for the product
   const lowestPrice = product.prices && product.prices.length > 0
@@ -39,7 +39,7 @@ export function ProductStructuredData({ product, locale }: ProductStructuredData
     url: `${baseUrl}/${locale}/store/${product.id}`,
     brand: {
       '@type': 'Brand',
-      name: 'Telegram Secrets',
+      name: 'Vip Acess',
     },
     offers: {
       '@type': 'AggregateOffer',
@@ -49,7 +49,7 @@ export function ProductStructuredData({ product, locale }: ProductStructuredData
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'Organization',
-        name: 'Telegram Secrets',
+        name: 'Vip Acess',
       },
     },
   };
@@ -71,12 +71,12 @@ interface WebsiteStructuredDataProps {
  * Should be included on the home page
  */
 export function WebsiteStructuredData({ locale }: WebsiteStructuredDataProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegram-secrets.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramacessovip.com';
 
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Telegram Secrets',
+    name: 'Vip Acess',
     description: 'Exclusive premium digital content platform',
     url: `${baseUrl}/${locale}`,
     potentialAction: {
@@ -89,7 +89,7 @@ export function WebsiteStructuredData({ locale }: WebsiteStructuredDataProps) {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Telegram Secrets',
+      name: 'Vip Acess',
       logo: {
         '@type': 'ImageObject',
         url: `${baseUrl}/logo.png`,

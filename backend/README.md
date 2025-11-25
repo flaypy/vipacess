@@ -1,4 +1,4 @@
-# Telegram Secrets - Backend
+# Vip Acess - Backend
 
 Express.js API server with PostgreSQL database.
 

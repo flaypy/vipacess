@@ -11,14 +11,14 @@ const config: Config = {
       colors: {
         noir: {
           darker: '#0a0a0a',
-          dark: '#1a1a1a',
-          medium: '#2d2d2d',
-          light: '#404040',
+          dark: '#111827',
+          medium: '#1f2937',
+          light: '#374151',
         },
         accent: {
-          gold: '#d4af37',
-          rose: '#ff6b9d',
-          purple: '#9b59b6',
+          emerald: '#047857',
+          gold: '#fbbf24',
+          lime: '#84cc16',
         },
       },
       fontFamily: {

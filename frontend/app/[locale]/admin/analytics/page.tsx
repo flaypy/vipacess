@@ -157,7 +157,7 @@ export default function AnalyticsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald"></div>
       </div>
     );
   }
@@ -174,7 +174,7 @@ export default function AnalyticsPage() {
     <div className="space-y-6">
       {/* Page Title */}
       <div>
-        <h2 className="text-3xl font-serif font-bold text-accent-gold mb-2">
+        <h2 className="text-3xl font-serif font-bold text-accent-emerald mb-2">
           {t('title')}
         </h2>
         <p className="text-gray-400">{t('subtitle')}</p>
@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
 
       {/* Filters */}
       <div className="bg-noir-light rounded-lg p-6 border border-noir-lighter">
-        <h3 className="text-lg font-semibold text-accent-gold mb-4">
+        <h3 className="text-lg font-semibold text-accent-emerald mb-4">
           {t('filters')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -196,7 +196,7 @@ export default function AnalyticsPage() {
                 onClick={() => setSelectedPeriod('today')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   selectedPeriod === 'today'
-                    ? 'bg-accent-gold text-noir-darker'
+                    ? 'bg-accent-emerald text-noir-darker'
                     : 'bg-noir-darker text-gray-300 hover:bg-noir-lighter'
                 }`}
               >
@@ -206,7 +206,7 @@ export default function AnalyticsPage() {
                 onClick={() => setSelectedPeriod('7d')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   selectedPeriod === '7d'
-                    ? 'bg-accent-gold text-noir-darker'
+                    ? 'bg-accent-emerald text-noir-darker'
                     : 'bg-noir-darker text-gray-300 hover:bg-noir-lighter'
                 }`}
               >
@@ -216,7 +216,7 @@ export default function AnalyticsPage() {
                 onClick={() => setSelectedPeriod('30d')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   selectedPeriod === '30d'
-                    ? 'bg-accent-gold text-noir-darker'
+                    ? 'bg-accent-emerald text-noir-darker'
                     : 'bg-noir-darker text-gray-300 hover:bg-noir-lighter'
                 }`}
               >
@@ -226,7 +226,7 @@ export default function AnalyticsPage() {
                 onClick={() => setSelectedPeriod('1y')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   selectedPeriod === '1y'
-                    ? 'bg-accent-gold text-noir-darker'
+                    ? 'bg-accent-emerald text-noir-darker'
                     : 'bg-noir-darker text-gray-300 hover:bg-noir-lighter'
                 }`}
               >
@@ -245,7 +245,7 @@ export default function AnalyticsPage() {
               onChange={(e) =>
                 setFilters({ ...filters, productId: e.target.value })
               }
-              className="w-full px-4 py-2 bg-noir-darker border border-noir-lighter rounded-lg text-gray-300 focus:outline-none focus:border-accent-gold"
+              className="w-full px-4 py-2 bg-noir-darker border border-noir-lighter rounded-lg text-gray-300 focus:outline-none focus:border-accent-emerald"
             >
               <option value="">{t('allProducts')}</option>
               {products.map((product) => (
@@ -264,7 +264,7 @@ export default function AnalyticsPage() {
           <h3 className="text-sm font-medium text-gray-400 mb-2">
             {t('totalRevenue')}
           </h3>
-          <p className="text-3xl font-bold text-accent-gold">
+          <p className="text-3xl font-bold text-accent-emerald">
             {formatCurrency(analytics.summary.totalRevenue)}
           </p>
         </div>
@@ -320,7 +320,7 @@ export default function AnalyticsPage() {
 
       {/* Daily Revenue Chart */}
       <div className="bg-noir-light rounded-lg p-6 border border-noir-lighter">
-        <h3 className="text-lg font-semibold text-accent-gold mb-4">
+        <h3 className="text-lg font-semibold text-accent-emerald mb-4">
           {t('dailyRevenue')}
         </h3>
         <ResponsiveContainer width="100%" height={300}>
@@ -358,7 +358,7 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Revenue by Product */}
         <div className="bg-noir-light rounded-lg p-6 border border-noir-lighter">
-          <h3 className="text-lg font-semibold text-accent-gold mb-4">
+          <h3 className="text-lg font-semibold text-accent-emerald mb-4">
             {t('revenueByProduct')}
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -382,7 +382,7 @@ export default function AnalyticsPage() {
 
         {/* Revenue by Category */}
         <div className="bg-noir-light rounded-lg p-6 border border-noir-lighter">
-          <h3 className="text-lg font-semibold text-accent-gold mb-4">
+          <h3 className="text-lg font-semibold text-accent-emerald mb-4">
             {t('revenueByCategory')}
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -421,7 +421,7 @@ export default function AnalyticsPage() {
 
       {/* Revenue by Product Table */}
       <div className="bg-noir-light rounded-lg p-6 border border-noir-lighter">
-        <h3 className="text-lg font-semibold text-accent-gold mb-4">
+        <h3 className="text-lg font-semibold text-accent-emerald mb-4">
           {t('productPerformance')}
         </h3>
         <div className="overflow-x-auto">
@@ -454,7 +454,7 @@ export default function AnalyticsPage() {
                   <td className="py-3 px-4 text-right text-gray-300">
                     {product.orders}
                   </td>
-                  <td className="py-3 px-4 text-right text-accent-gold font-semibold">
+                  <td className="py-3 px-4 text-right text-accent-emerald font-semibold">
                     {formatCurrency(product.revenue)}
                   </td>
                   <td className="py-3 px-4 text-right text-gray-300">

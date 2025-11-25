@@ -5,7 +5,7 @@
 set -e  # Exit on any error
 
 echo "=========================================="
-echo "Telegram Secrets - Deploy from Docker Hub"
+echo "Vip Acess - Deploy from Docker Hub"
 echo "=========================================="
 
 # Check if .env.production.local.local exists
@@ -73,7 +73,7 @@ echo "Waiting for services to start..."
 sleep 5
 
 # Check if this is first deployment (need to run migrations)
-if ! docker ps -a | grep -q "telegram_secrets_backend_prod"; then
+if ! docker ps -a | grep -q "vipacess_backend_prod"; then
     FIRST_DEPLOY=true
 else
     FIRST_DEPLOY=false
@@ -88,7 +88,7 @@ if [ "$FIRST_DEPLOY" = true ]; then
     sleep 10
 
     echo "Running database migrations..."
-    docker exec telegram_secrets_backend_prod npx prisma migrate deploy
+    docker exec vipacess_backend_prod npx prisma migrate deploy
 fi
 
 echo ""

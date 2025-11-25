@@ -3,7 +3,7 @@ import { locales } from '@/i18n';
 
 // This generates a dynamic sitemap for all pages and products
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegram-secrets.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramacessovip.com';
 
   // Static pages for each locale
   const staticPages: MetadataRoute.Sitemap = [];

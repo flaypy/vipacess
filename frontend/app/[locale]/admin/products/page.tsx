@@ -284,7 +284,7 @@ export default function AdminProductsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-gold"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-emerald"></div>
       </div>
     );
   }
@@ -292,8 +292,8 @@ export default function AdminProductsPage() {
   return (
     <div>
       {/* Bulk Update Delivery Links Section */}
-      <div className="card-noir mb-6 border-2 border-accent-gold">
-        <h2 className="text-xl font-bold mb-4 text-accent-gold">
+      <div className="card-noir mb-6 border-2 border-accent-emerald">
+        <h2 className="text-xl font-bold mb-4 text-accent-emerald">
           Atualização em Massa - Delivery Link
         </h2>
         <p className="text-sm text-gray-400 mb-4">
@@ -318,8 +318,8 @@ export default function AdminProductsPage() {
         </div>
         {isBulkUpdating && (
           <div className="mt-3">
-            <div className="flex items-center gap-2 text-accent-gold mb-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-accent-gold"></div>
+            <div className="flex items-center gap-2 text-accent-emerald mb-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-accent-emerald"></div>
               <span className="text-sm">
                 Atualizando: {bulkProgress.current} de {bulkProgress.total} price tiers
               </span>
@@ -327,7 +327,7 @@ export default function AdminProductsPage() {
             {bulkProgress.total > 0 && (
               <div className="w-full bg-noir-medium rounded-full h-2">
                 <div
-                  className="bg-accent-gold h-2 rounded-full transition-all duration-300"
+                  className="bg-accent-emerald h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(bulkProgress.current / bulkProgress.total) * 100}%` }}
                 ></div>
               </div>
@@ -353,7 +353,7 @@ export default function AdminProductsPage() {
       {/* Product Form */}
       {showProductForm && (
         <div className="card-noir mb-8">
-          <h2 className="text-2xl font-bold mb-6 text-accent-gold">
+          <h2 className="text-2xl font-bold mb-6 text-accent-emerald">
             {editingProduct ? t('editProduct') : t('createProduct')}
           </h2>
           <form onSubmit={handleProductSubmit} className="space-y-4">
@@ -458,7 +458,7 @@ export default function AdminProductsPage() {
             {/* Product Header */}
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-accent-gold">{product.name}</h3>
+                <h3 className="text-xl font-bold text-accent-emerald">{product.name}</h3>
                 <p className="text-sm text-gray-400 mt-1">{product.description.substring(0, 100)}...</p>
                 <div className="flex gap-4 mt-2 text-sm">
                   <span className={product.isActive ? 'text-green-400' : 'text-red-400'}>
@@ -478,7 +478,7 @@ export default function AdminProductsPage() {
                 </button>
                 <button
                   onClick={() => handleEditProduct(product)}
-                  className="text-accent-gold hover:underline text-sm"
+                  className="text-accent-emerald hover:underline text-sm"
                 >
                   Edit
                 </button>
@@ -498,7 +498,7 @@ export default function AdminProductsPage() {
                 {/* Regions Section */}
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <h4 className="text-lg font-bold text-accent-rose">Regions</h4>
+                    <h4 className="text-lg font-bold text-accent-gold">Regions</h4>
                     <button
                       onClick={() => setShowRegionForm(showRegionForm === product.id ? null : product.id)}
                       className="btn-secondary text-sm"
@@ -534,7 +534,7 @@ export default function AdminProductsPage() {
                       (product as any).regions.map((region: any) => (
                         <div
                           key={region.id}
-                          className="px-3 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-sm flex items-center gap-2"
+                          className="px-3 py-1 bg-accent-lime/20 text-accent-lime rounded-full text-sm flex items-center gap-2"
                         >
                           {region.countryCode}
                           <button
@@ -554,7 +554,7 @@ export default function AdminProductsPage() {
                 {/* Prices Section */}
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <h4 className="text-lg font-bold text-accent-gold">Price Tiers</h4>
+                    <h4 className="text-lg font-bold text-accent-emerald">Price Tiers</h4>
                     <button
                       onClick={() => {
                         setShowPriceForm(showPriceForm === product.id ? null : product.id);
@@ -635,7 +635,7 @@ export default function AdminProductsPage() {
                           className="bg-noir-medium p-3 rounded-lg flex items-center justify-between"
                         >
                           <div>
-                            <span className="font-bold text-accent-gold">{price.category}</span>
+                            <span className="font-bold text-accent-emerald">{price.category}</span>
                             <span className="mx-2">-</span>
                             <span className="text-gray-300">
                               {price.currency} {price.amount.toFixed(2)}
@@ -647,7 +647,7 @@ export default function AdminProductsPage() {
                           <div className="flex gap-2">
                             <button
                               onClick={() => handleEditPrice(price, product.id)}
-                              className="text-accent-gold hover:underline text-sm"
+                              className="text-accent-emerald hover:underline text-sm"
                             >
                               Edit
                             </button>

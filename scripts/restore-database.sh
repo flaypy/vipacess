@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ===================================================
-# PostgreSQL Restore Script for Telegram Secrets
+# PostgreSQL Restore Script for Vip Acess
 # ===================================================
 # Usage: ./scripts/restore-database.sh [backup_file]
 # If no file specified, restores from latest backup
@@ -9,10 +9,10 @@
 set -e
 
 # Configuration
-BACKUP_DIR="/var/backups/telegram-secrets"
-CONTAINER_NAME="telegram_secrets_db"
-DB_NAME="${POSTGRES_DB:-telegram_secrets_db}"
-DB_USER="${POSTGRES_USER:-telegram_secrets}"
+BACKUP_DIR="/var/backups/vipacess"
+CONTAINER_NAME="vipacess_db"
+DB_NAME="${POSTGRES_DB:-vipacess_db}"
+DB_USER="${POSTGRES_USER:-vipacess}"
 
 # Determine backup file
 if [ -z "$1" ]; then

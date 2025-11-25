@@ -28,7 +28,7 @@ export default async function HomePage({
         </div>
 
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-          <h1 className="text-6xl pb-3 md:text-8xl font-serif font-bold mb-6 bg-gradient-to-r from-accent-gold via-accent-rose to-accent-purple bg-clip-text text-transparent animate-pulse leading-relaxed">
+          <h1 className="text-6xl pb-3 md:text-8xl font-serif font-bold mb-6 bg-gradient-to-r from-accent-emerald via-accent-gold to-accent-lime bg-clip-text text-transparent animate-pulse leading-relaxed">
             {t('title')}
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light">
@@ -43,22 +43,22 @@ export default async function HomePage({
         </div>
 
         {/* Decorative elements */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-gold to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-emerald to-transparent" />
       </section>
 
       {/* Features Section */}
       <section className="py-24 px-4 bg-noir-dark">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-serif font-bold text-center mb-16 text-accent-gold">
+          <h2 className="text-4xl font-serif font-bold text-center mb-16 text-accent-emerald">
             {t('featuresTitle')}
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Feature 1 */}
             <div className="card-noir text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-gold/10 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-emerald/10 flex items-center justify-center">
                 <svg
-                  className="w-8 h-8 text-accent-gold"
+                  className="w-8 h-8 text-accent-emerald"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -71,7 +71,7 @@ export default async function HomePage({
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-accent-gold">
+              <h3 className="text-xl font-bold mb-3 text-accent-emerald">
                 {t('feature1Title')}
               </h3>
               <p className="text-gray-400">{t('feature1Desc')}</p>
@@ -79,9 +79,9 @@ export default async function HomePage({
 
             {/* Feature 2 */}
             <div className="card-noir text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-rose/10 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-gold/10 flex items-center justify-center">
                 <svg
-                  className="w-8 h-8 text-accent-rose"
+                  className="w-8 h-8 text-accent-gold"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -94,7 +94,7 @@ export default async function HomePage({
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-accent-rose">
+              <h3 className="text-xl font-bold mb-3 text-accent-gold">
                 {t('feature2Title')}
               </h3>
               <p className="text-gray-400">{t('feature2Desc')}</p>
@@ -102,9 +102,9 @@ export default async function HomePage({
 
             {/* Feature 3 */}
             <div className="card-noir text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-purple/10 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-lime/10 flex items-center justify-center">
                 <svg
-                  className="w-8 h-8 text-accent-purple"
+                  className="w-8 h-8 text-accent-lime"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -117,7 +117,7 @@ export default async function HomePage({
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-accent-purple">
+              <h3 className="text-xl font-bold mb-3 text-accent-lime">
                 {t('feature3Title')}
               </h3>
               <p className="text-gray-400">{t('feature3Desc')}</p>

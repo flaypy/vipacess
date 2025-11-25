@@ -5,7 +5,7 @@
 set -e  # Exit on any error
 
 echo "=========================================="
-echo "Telegram Secrets - Build & Push to Docker Hub"
+echo "Vip Acess - Build & Push to Docker Hub"
 echo "=========================================="
 
 # Check if .env.production.local exists
