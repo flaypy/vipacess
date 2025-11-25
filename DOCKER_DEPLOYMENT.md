@@ -17,8 +17,8 @@ Before deployment, you MUST update these variables in `.env.production`:
 #### Docker Configuration
 ```bash
 DOCKER_USERNAME=your_dockerhub_username  # Your Docker Hub username
-BACKEND_IMAGE_NAME=telegram-secrets-backend  # Can customize
-FRONTEND_IMAGE_NAME=telegram-secrets-frontend  # Can customize
+BACKEND_IMAGE_NAME=telegram-acess-backend  # Can customize
+FRONTEND_IMAGE_NAME=telegram-acess-frontend  # Can customize
 IMAGE_TAG=latest  # Or use version tags like v1.0.0
 ```
 
