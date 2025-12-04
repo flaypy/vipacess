@@ -26,7 +26,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramacessovip.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramvipacess.com';
   const logoUrl = `${siteUrl}/logo.png`;
 
   return {

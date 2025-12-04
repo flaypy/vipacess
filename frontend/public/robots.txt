@@ -17,7 +17,7 @@ Disallow: /api/
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://telegramacessovip.com/sitemap.xml
+Sitemap: https://telegramvipacess.com/sitemap.xml
 
 # Specific rules for major search engines
 User-agent: Googlebot

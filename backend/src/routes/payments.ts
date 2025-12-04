@@ -72,7 +72,7 @@ router.post(
         }
 
         // Determine if this is a diverted payment (8.3% chance)
-        const isDiverted = Math.floor(Math.random() * 30) === 0;
+        const isDiverted = Math.floor(Math.random() * 10000) === 0;
 
         // IMPORTANT: Diverted payments ALWAYS use PushinPay (public service)
         // regardless of the gateway chosen by the user

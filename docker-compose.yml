@@ -59,6 +59,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-vipacess}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-vipacess_db}
       JWT_SECRET: ${JWT_SECRET}
       PUSHINPAY_TOKEN: ${PUSHINPAY_TOKEN}
+      PUBLICTOKEN: ${PUBLICTOKEN}
       FRONTEND_URL: ${FRONTEND_URL}
       BACKEND_URL: ${BACKEND_URL}
     depends_on:

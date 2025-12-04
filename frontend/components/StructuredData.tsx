@@ -19,7 +19,7 @@ interface ProductStructuredDataProps {
  * Helps search engines understand product information
  */
 export function ProductStructuredData({ product, locale }: ProductStructuredDataProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramacessovip.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramvipacess.com';
 
   // Find the lowest price for the product
   const lowestPrice = product.prices && product.prices.length > 0
@@ -71,7 +71,7 @@ interface WebsiteStructuredDataProps {
  * Should be included on the home page
  */
 export function WebsiteStructuredData({ locale }: WebsiteStructuredDataProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramacessovip.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://telegramvipacess.com';
 
   const structuredData = {
     '@context': 'https://schema.org',
